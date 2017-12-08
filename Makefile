@@ -32,9 +32,12 @@ all:
 	mkdir -p $(BIN64_DIR)
 ifndef ARCH
 	$(MAKE) clean_objects
-	$(MAKE) $(TARGET64) -e ARCH=64
+	$(MAKE) -e ARCH=64
 	$(MAKE) clean_objects
-	$(MAKE) $(TARGET32) -e ARCH=32
+	$(MAKE) -e ARCH=32
+else
+	$(MAKE) clean_objects
+	$(MAKE) $(TARGET)
 endif
 	
 install:
