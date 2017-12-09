@@ -2,6 +2,7 @@
 #include <GL/gl.h>
 
 #include <assert.h>
+#include <stdio.h>
 
 #include <mat4.h>
 
@@ -16,13 +17,20 @@ GLuint compile_shader(const char *source, GLenum type)
     glCompileShader(shader);
     glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
 
-    assert(status == GL_TRUE);
+    if (status != GL_TRUE)
+	{
+    	char infolog[512];
+    	GLsizei length;
+    	glGetShaderInfoLog(shader, 512, &length, infolog);
+    	fprintf(stderr, "GLEZ: Shader compile error: %s\n", infolog);
+    	assert(status == GL_TRUE);
+	}
 
     return shader;
 }
 
 const char *shader_ultimate_vert =
-    "#version 330\n"
+    "#version 130\n"
     "\n"
     "uniform mat4 model;\n"
     "uniform mat4 view;\n"
@@ -42,7 +50,7 @@ const char *shader_ultimate_vert =
     "    frag_DrawMode = drawmode;\n"
     "}";
 const char *shader_ultimate_frag =
-    "#version 330\n"
+    "#version 130\n"
     "\n"
     "uniform sampler2D texture;\n"
     "in vec4 frag_Color;\n"
