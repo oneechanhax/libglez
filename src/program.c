@@ -22,7 +22,7 @@ GLuint compile_shader(const char *source, GLenum type)
 }
 
 const char *shader_ultimate_vert =
-    "#version 300\n"
+    "#version 330\n"
     "\n"
     "uniform mat4 model;\n"
     "uniform mat4 view;\n"
@@ -42,7 +42,7 @@ const char *shader_ultimate_vert =
     "    frag_DrawMode = drawmode;\n"
     "}";
 const char *shader_ultimate_frag =
-    "#version 300\n"
+    "#version 330\n"
     "\n"
     "uniform sampler2D texture;\n"
     "in vec4 frag_Color;\n"
