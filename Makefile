@@ -32,17 +32,17 @@ all:
 	mkdir -p $(BIN64_DIR)
 ifndef ARCH
 	$(MAKE) clean_objects
-	$(MAKE) -e ARCH=64
-	$(MAKE) clean_objects
 	$(MAKE) -e ARCH=32
+	$(MAKE) clean_objects
+	$(MAKE) -e ARCH=64
 else
 	$(MAKE) clean_objects
 	$(MAKE) $(TARGET)
 endif
 	
 install:
-	cp $(TARGET64) $(LIB64_PATH)
 	cp $(TARGET32) $(LIB32_PATH)
+	cp $(TARGET64) $(LIB64_PATH)
 
 ftgl/distance-field.o : CFLAGS+=-w
 ftgl/edtaa3func.o : CFLAGS+=-w
