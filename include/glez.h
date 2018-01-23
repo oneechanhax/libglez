@@ -7,6 +7,11 @@
 
 #pragma once
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 /* Types */
 
 typedef struct glez_vec4_s
@@ -106,3 +111,7 @@ void glez_string_with_outline(float x, float y, const char *string,
 
 void glez_circle(float x, float y, float radius, glez_rgba_t color,
                  float thickness, int steps);
+
+#ifdef __cplusplus
+}
+#endif
