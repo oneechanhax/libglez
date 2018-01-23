@@ -43,6 +43,7 @@ endif
 install:
 	cp $(TARGET32) $(LIB32_PATH)
 	cp $(TARGET64) $(LIB64_PATH)
+	cp -R include/. /usr/local/include/glez
 
 ftgl/distance-field.o : CFLAGS+=-w
 ftgl/edtaa3func.o : CFLAGS+=-w
