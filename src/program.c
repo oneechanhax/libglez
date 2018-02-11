@@ -67,7 +67,6 @@ const char *shader_ultimate_frag =
     "           gl_FragColor = frag_Color * tex;\n"
     "       else if (frag_DrawMode == 3)\n"
     "       {\n"
-    "           if (tex.r > 0.4) tex.r = 1.0;\n"
     "           gl_FragColor = vec4(frag_Color.rgb, frag_Color.a * tex.r);\n"
     "       }\n"
     "       else\n"

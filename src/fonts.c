@@ -57,8 +57,6 @@ glez_font_t glez_font_load(const char *path, float size)
         return GLEZ_FONT_INVALID;
     }
 
-    result.font->hinting = 0;
-
     for (glez_font_t i = 0; i < GLEZ_FONT_COUNT; ++i)
     {
         if (loaded_fonts[i].init == 0)

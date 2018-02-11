@@ -51,10 +51,8 @@ void glez_resize(int width, int height)
 void glez_line(float x, float y, float dx, float dy, glez_rgba_t color,
                float thickness)
 {
-    x += 0.5f;
-    y += 0.5f;
-    dx -= 0.5f;
-    dy -= 0.5f;
+    /*x += 0.375f;
+    y += 0.375f;*/
 
     GLuint indices[6] = { 0, 1, 3, 3, 2, 0 };
 
@@ -100,10 +98,8 @@ void glez_line(float x, float y, float dx, float dy, glez_rgba_t color,
 
 void glez_rect(float x, float y, float w, float h, glez_rgba_t color)
 {
-    x += 0.5f;
-    y += 0.5f;
-    w -= 0.5f;
-    h -= 0.5f;
+    /*x += 0.375f;
+    y += 0.375f;*/
 
     struct vertex_main vertices[4];
     GLuint indices[6] = { 0, 1, 2, 2, 3, 0 };
@@ -147,10 +143,8 @@ void glez_rect_textured(float x, float y, float w, float h, glez_rgba_t color,
     internal_texture_t *tex = internal_texture_get(texture);
     internal_texture_bind(texture);
 
-    x += 0.5f;
-    y += 0.5f;
-    w -= 0.5f;
-    h -= 0.5f;
+    /*x += 0.375f;
+    y += 0.375f;*/
 
     GLuint idx = program_next_index();
 
@@ -209,8 +203,8 @@ void draw_string_internal(float x, float y, const char *string,
     ds_bind_texture(fnt->atlas->id);
     if (fnt->atlas->dirty)
     {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, fnt->atlas->width,
@@ -238,10 +232,10 @@ void draw_string_internal(float x, float y, const char *string,
             x += texture_glyph_get_kerning(glyph, &string[i - 1]);
         }
 
-        float x0 = (pen_x + glyph->offset_x);
-        float y0 = (pen_y - glyph->offset_y);
-        float x1 = (x0 + glyph->width);
-        float y1 = (y0 + glyph->height);
+        float x0 = (int)(pen_x + glyph->offset_x);
+        float y0 = (int)(pen_y - glyph->offset_y);
+        float x1 = (int)(x0 + glyph->width);
+        float y1 = (int)(y0 + glyph->height);
         float s0 = glyph->s0;
         float t0 = glyph->t0;
         float s1 = glyph->s1;
@@ -264,7 +258,7 @@ void draw_string_internal(float x, float y, const char *string,
                                             color, DRAW_MODE_FREETYPE };
 
         pen_x += glyph->advance_x;
-        pen_x = (int) pen_x + 1;
+        //pen_x = (int) pen_x + 1;
         if (glyph->height > size_y)
             size_y = glyph->height;
 
