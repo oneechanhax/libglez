@@ -142,7 +142,7 @@ void glez_rect_outline(float x, float y, float w, float h, glez_rgba_t color,
 
 void glez_rect_textured(float x, float y, float w, float h, glez_rgba_t color,
                         glez_texture_t texture, float tx, float ty, float tw,
-                        float th)
+                        float th, float angle)
 {
     internal_texture_t *tex = internal_texture_get(texture);
     internal_texture_bind(texture);
@@ -162,29 +162,29 @@ void glez_rect_textured(float x, float y, float w, float h, glez_rgba_t color,
     float t0 = ty / tex->height;
     float t1 = (ty + th) / tex->height;
 
-    vertices[0].position.x   = x;
-    vertices[0].position.y   = y;
+	vertices[0].position.x = x * cos(angle) - y * sin(angle);
+    vertices[0].position.y   = y * sin(angle) + y * cos(angle);
     vertices[0].tex_coords.x = s0;
     vertices[0].tex_coords.y = t1;
     vertices[0].color        = color;
     vertices[0].mode         = DRAW_MODE_TEXTURED;
 
-    vertices[1].position.x   = x;
-    vertices[1].position.y   = y + h;
+    vertices[1].position.x   = x * cos(angle) - y * sin(angle);
+    vertices[1].position.y   = (y + h) * sin(angle) + y * cos(angle);
     vertices[1].tex_coords.x = s0;
     vertices[1].tex_coords.y = t0;
     vertices[1].color        = color;
     vertices[1].mode         = DRAW_MODE_TEXTURED;
 
-    vertices[2].position.x   = x + w;
-    vertices[2].position.y   = y + h;
+    vertices[2].position.x   = (x + w) * cos(angle) - y * sin(angle);
+    vertices[2].position.y   = (y + h) * sin(angle) + y * cos(angle);
     vertices[2].tex_coords.x = s1;
     vertices[2].tex_coords.y = t0;
     vertices[2].color        = color;
     vertices[2].mode         = DRAW_MODE_TEXTURED;
 
-    vertices[3].position.x   = x + w;
-    vertices[3].position.y   = y;
+    vertices[3].position.x   = (x + w) * cos(angle) - y * sin(angle);
+    vertices[3].position.y   = y * sin(angle) + y * cos(angle);
     vertices[3].tex_coords.x = s1;
     vertices[3].tex_coords.y = t1;
     vertices[3].color        = color;
