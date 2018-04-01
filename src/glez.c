@@ -170,20 +170,20 @@ void glez_rect_textured(float x, float y, float w, float h, glez_rgba_t color,
     vertices[0].mode         = DRAW_MODE_TEXTURED;
 
     vertices[1].position.x   = x * cos(angle) - y * sin(angle);
-    vertices[1].position.y   = (y + h) * sin(angle) + y * cos(angle);
+    vertices[1].position.y   = (y * sin(angle) + y * cos(angle)) + h;
     vertices[1].tex_coords.x = s0;
     vertices[1].tex_coords.y = t0;
     vertices[1].color        = color;
     vertices[1].mode         = DRAW_MODE_TEXTURED;
 
-    vertices[2].position.x   = (x + w) * cos(angle) - y * sin(angle);
-    vertices[2].position.y   = (y + h) * sin(angle) + y * cos(angle);
+    vertices[2].position.x   = (x * cos(angle) - y * sin(angle)) + w;
+    vertices[2].position.y   = (y * sin(angle) + y * cos(angle)) + h;
     vertices[2].tex_coords.x = s1;
     vertices[2].tex_coords.y = t0;
     vertices[2].color        = color;
     vertices[2].mode         = DRAW_MODE_TEXTURED;
 
-    vertices[3].position.x   = (x + w) * cos(angle) - y * sin(angle);
+    vertices[3].position.x   = (x * cos(angle) - y * sin(angle)) + w;
     vertices[3].position.y   = y * sin(angle) + y * cos(angle);
     vertices[3].tex_coords.x = s1;
     vertices[3].tex_coords.y = t1;
