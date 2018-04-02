@@ -11,6 +11,7 @@
 #include "internal/draw.h"
 #include "internal/fonts.h"
 #include "internal/textures.h"
+#include <vec234.h>
 
 #include <math.h>
 
@@ -139,7 +140,6 @@ void glez_rect_outline(float x, float y, float w, float h, glez_rgba_t color,
     glez_line(x + w, y + h, -w, 0, color, thickness);
     glez_line(x, y + h, 0, -h, color, thickness);
 }
-
 void glez_rect_textured(float x, float y, float w, float h, glez_rgba_t color,
                         glez_texture_t texture, float tx, float ty, float tw,
                         float th, float angle)
@@ -162,33 +162,63 @@ void glez_rect_textured(float x, float y, float w, float h, glez_rgba_t color,
     float t0 = ty / tex->height;
     float t1 = (ty + th) / tex->height;
 
-	vertices[0].position.x = x * cos(angle) - y * sin(angle);
-    vertices[0].position.y   = x * sin(angle) + y * cos(angle);
+    vertices[0].position.x   = x;
+    vertices[0].position.y   = y;
     vertices[0].tex_coords.x = s0;
     vertices[0].tex_coords.y = t1;
     vertices[0].color        = color;
     vertices[0].mode         = DRAW_MODE_TEXTURED;
 
-    vertices[1].position.x   = x * cos(angle) - y * sin(angle);
-    vertices[1].position.y   = (x * sin(angle) + y * cos(angle)) + h;
+    vertices[1].position.x   = x;
+    vertices[1].position.y   = y + h;
     vertices[1].tex_coords.x = s0;
     vertices[1].tex_coords.y = t0;
     vertices[1].color        = color;
     vertices[1].mode         = DRAW_MODE_TEXTURED;
 
-    vertices[2].position.x   = (x * cos(angle) - y * sin(angle)) + w;
-    vertices[2].position.y   = (x * sin(angle) + y * cos(angle)) + h;
+    vertices[2].position.x   = x + w;
+    vertices[2].position.y   = y + h;
     vertices[2].tex_coords.x = s1;
     vertices[2].tex_coords.y = t0;
     vertices[2].color        = color;
     vertices[2].mode         = DRAW_MODE_TEXTURED;
 
-    vertices[3].position.x   = (x * cos(angle) - y * sin(angle)) + w;
-    vertices[3].position.y   = x * sin(angle) + y * cos(angle);
+    vertices[3].position.x   = x + w;
+    vertices[3].position.y   = y;
     vertices[3].tex_coords.x = s1;
     vertices[3].tex_coords.y = t1;
     vertices[3].color        = color;
     vertices[3].mode         = DRAW_MODE_TEXTURED;
+
+    if (angle) {
+    	float v1[2] = {vertices[0].position.x, vertices[0].position.y};
+		float v2[2] = {vertices[1].position.x, vertices[1].position.y};
+		float v3[2] = {vertices[2].position.x, vertices[2].position.y};
+		float v4[2] = {vertices[3].position.x, vertices[3].position.y};
+    	vertices[0].position.x = -tw;
+		vertices[1].position.x = -tw;
+		vertices[2].position.x = tw;
+		vertices[3].position.x = tw;
+
+    	vertices[0].position.y = -th;
+		vertices[1].position.y = th;
+		vertices[2].position.y = th;
+		vertices[3].position.y = -th;
+    	for (int i = 0; i < 4; i++) {
+    		float x = vertices[i].position.x;
+    		float y = vertices[i].position.y;
+            vertices[i].position.x = x *cos(angle) - y *sin(angle);
+            vertices[i].position.y = x *sin(angle) + y *cos(angle);
+    	}
+    	vertices[0].position.x += v1[0];
+    	vertices[0].position.y += v1[1];
+    	vertices[1].position.x += v2[0];
+    	vertices[1].position.y += v2[1];
+    	vertices[2].position.x += v3[0];
+    	vertices[2].position.y += v3[1];
+    	vertices[3].position.x += v4[0];
+    	vertices[3].position.y += v4[1];
+    }
 
     vertex_buffer_push_back(program.buffer, vertices, 4, indices, 6);
 }
