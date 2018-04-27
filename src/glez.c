@@ -13,6 +13,7 @@
 #include "internal/textures.h"
 
 #include <math.h>
+#include <string.h>
 
 /* State functions */
 
