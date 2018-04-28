@@ -1,3 +1,4 @@
 bin*
 *.o
 .settings*
+build

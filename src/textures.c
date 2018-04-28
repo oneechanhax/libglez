@@ -52,13 +52,14 @@ int internal_texture_load_png_rgba(const char *name, internal_texture_t *out)
         png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
     if (pngstr == NULL)
     {
+        fclose(file);
         return -1;
     }
     png_infop pnginfo = png_create_info_struct(pngstr);
     png_infop pngend  = png_create_info_struct(pngstr);
     if (setjmp(png_jmpbuf(pngstr)))
     {
-        png_destroy_read_struct(pngstr, pnginfo, pngend);
+        png_destroy_read_struct(&pngstr, &pnginfo, &pngend);
         return -1;
     }
     png_init_io(pngstr, file);
@@ -71,7 +72,7 @@ int internal_texture_load_png_rgba(const char *name, internal_texture_t *out)
     int row_bytes;
     if (PNG_COLOR_TYPE_RGBA != png_get_color_type(pngstr, pnginfo))
     {
-        png_destroy_read_struct(pngstr, pnginfo, pngend);
+        png_destroy_read_struct(&pngstr, &pnginfo, &pngend);
         fclose(file);
         return -1;
     }
@@ -81,14 +82,14 @@ int internal_texture_load_png_rgba(const char *name, internal_texture_t *out)
     out->data = malloc(row_bytes * height * sizeof(png_byte));
     if (out->data == NULL)
     {
-        png_destroy_read_struct(pngstr, pnginfo, pngend);
+        png_destroy_read_struct(&pngstr, &pnginfo, &pngend);
         fclose(file);
         return -1;
     }
     row_pointers = malloc(height * sizeof(png_bytep));
     if (row_pointers == NULL)
     {
-        png_destroy_read_struct(pngstr, pnginfo, pngend);
+        png_destroy_read_struct(&pngstr, &pnginfo, &pngend);
         free(out->data);
         fclose(file);
         return -1;
