@@ -22,6 +22,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     $<BUILD_INTERFACE:${FREETYPE_INCLUDE_DIRS}>
     $<BUILD_INTERFACE:${PNG_INCLUDE_DIR}>
     $<BUILD_INTERFACE:${GLEW_INCLUDE_DIRS}>
+)
+
+target_include_directories(${PROJECT_NAME} PUBLIC 
     $<INSTALL_INTERFACE:${include_dest}>
 )
 
