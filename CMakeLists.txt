@@ -1,5 +1,11 @@
 # This builds a 32-bit version of library, building 64 bit is not supported yet.
 
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Build type")
+endif()
+set(CMAKE_BUILD_TYPE_VALUES "Debug;Release" CACHE INTERNAL "List of supported build")
+set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS ${CMAKE_BUILD_TYPE_VALUES})
+
 cmake_minimum_required(VERSION 3.0)
 
 project(glez LANGUAGES C VERSION 0.0.1)
