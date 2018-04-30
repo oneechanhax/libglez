@@ -10,6 +10,7 @@
 #include <vertex-buffer.h>
 #include <glez/detail/font.hpp>
 #include <cstring>
+#include <glez/detail/texture.hpp>
 
 namespace indices
 {
@@ -173,6 +174,9 @@ rect_textured(int x, int y, int w, int h, rgba color, texture &texture, int tx, 
     if (!texture.isLoaded())
         texture.load();
 
+    auto& tex = detail::texture::get(texture.getHandle());
+    tex.bind();
+
     detail::render::vertex vertices[4];
 
     for (auto &vertex : vertices)
@@ -186,15 +190,15 @@ rect_textured(int x, int y, int w, int h, rgba color, texture &texture, int tx, 
     vertices[2].position = { x + w, y + h };
     vertices[3].position = { x + w, y };
 
-    float s0 = tx / texture.getWidth();
-    float s1 = (tx + tw) / texture.getWidth();
-    float t0 = ty / texture.getHeight();
-    float t1 = (ty + th) / texture.getHeight();
+    float s0 = float(tx) / texture.getWidth();
+    float s1 = float(tx + tw) / texture.getWidth();
+    float t0 = float(ty) / texture.getHeight();
+    float t1 = float(ty + th) / texture.getHeight();
 
-    vertices[0].uv = {s0, t1};
-    vertices[1].uv = {s0, t0};
-    vertices[2].uv = {s1, t0};
-    vertices[3].uv = {s1, t1};
+    vertices[0].uv = {s0, t0};
+    vertices[1].uv = {s0, t1};
+    vertices[2].uv = {s1, t1};
+    vertices[3].uv = {s1, t0};
 
     ftgl::vertex_buffer_push_back(detail::program::buffer, vertices, 4, indices::rectangle, 6);
 }

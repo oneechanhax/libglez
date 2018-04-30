@@ -54,7 +54,11 @@ void texture::load(const std::string &path)
     id = 0;
     auto bytes = image.get_width() * image.get_height() * 4;
     data = new GLubyte[bytes];
-    memcpy(data, image.get_pixbuf().get_row(0).data(), bytes);
+
+    for (int i = 0; i < image.get_height(); ++i)
+    {
+        memcpy(data + image.get_width() * 4 * i, image.get_pixbuf().get_row(i).data(), image.get_width() * 4);
+    }
 }
 
 void texture::unload()
