@@ -11,6 +11,7 @@
 #include <glez/detail/font.hpp>
 #include <cstring>
 #include <glez/detail/texture.hpp>
+#include <cmath>
 
 namespace indices
 {
@@ -169,7 +170,7 @@ void outlined_string(int x, int y, const std::string &string,
 }
 
 void
-rect_textured(int x, int y, int w, int h, rgba color, texture &texture, int tx, int ty, int tw, int th)
+rect_textured(int x, int y, int w, int h, rgba color, texture &texture, int tx, int ty, int tw, int th, float angle)
 {
     if (!texture.isLoaded())
         texture.load();
@@ -189,6 +190,21 @@ rect_textured(int x, int y, int w, int h, rgba color, texture &texture, int tx, 
     vertices[1].position = { x, y + h };
     vertices[2].position = { x + w, y + h };
     vertices[3].position = { x + w, y };
+
+    if (angle != 0.0f)
+    {
+        float cx = x + float(w) / 2.0f;
+        float cy = y + float(h) / 2.0f;
+
+        for (auto& v: vertices)
+        {
+            float ox = v.position.x;
+            float oy = v.position.y;
+
+            v.position.x = cx + cosf(angle) * (ox - cx) - sinf(angle) * (oy - cy);
+            v.position.y = cy + sinf(angle) * (ox - cx) + cosf(angle) * (oy - cy);
+        }
+    }
 
     float s0 = float(tx) / texture.getWidth();
     float s1 = float(tx + tw) / texture.getWidth();
