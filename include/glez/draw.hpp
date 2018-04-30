@@ -13,15 +13,15 @@
 namespace glez::draw
 {
 
-void line(int x, int y, int dx, int dy, rgba color, int thickness);
-void rect(int x, int y, int w, int h, rgba color);
-void rect_outline(int x, int y, int w, int h, rgba color, int thickness);
-void rect_textured(int x, int y, int w, int h, rgba color, texture &texture,
-                   int tx, int ty, int tw, int th, float angle);
-void circle(int x, int y, int radius, rgba color, int thickness, int steps);
+void line(float x, float y, float dx, float dy, rgba color, float thickness);
+void rect(float x, float y, float w, float h, rgba color);
+void rect_outline(float x, float y, float w, float h, rgba color, float thickness);
+void rect_textured(float x, float y, float w, float h, rgba color, texture &texture,
+                   float tx, float ty, float tw, float th, float angle);
+void circle(float x, float y, float radius, rgba color, float thickness, int steps);
 
-void string(int x, int y, const std::string &string, font &font, rgba color,
-            int *width, int *height);
-void outlined_string(int x, int y, const std::string &string, font &font,
-                     rgba color, rgba outline, int *width, int *height);
+void string(float x, float y, const std::string &string, font &font, rgba color,
+            float *width, float *height);
+void outlined_string(float x, float y, const std::string &string, font &font,
+                     rgba color, rgba outline, float *width, float *height);
 }

@@ -19,9 +19,9 @@ namespace indices
 static GLuint rectangle[6] = { 0, 1, 2, 2, 3, 0 };
 }
 
-void internal_draw_string(int x, int y, const std::string &string,
-                          texture_font_t *fnt, glez::rgba color, int *width,
-                          int *height)
+void internal_draw_string(float x, float y, const std::string &string,
+                          texture_font_t *fnt, glez::rgba color, float *width,
+                          float *height)
 {
     float pen_x  = x;
     float pen_y  = y + fnt->height / 1.5f;
@@ -108,8 +108,16 @@ void internal_draw_string(int x, int y, const std::string &string,
 namespace glez::draw
 {
 
-void line(int x, int y, int dx, int dy, rgba color, int thickness)
+void line(float x, float y, float dx, float dy, rgba color, float thickness)
 {
+    // Dirty
+    x += 0.5f;
+    y += 0.5f;
+
+    float length = sqrtf(dx * dx + dy * dy);
+    dx *= (length - 1.0f) / length;
+    dy *= (length - 1.0f) / length;
+
     detail::render::vertex vertices[4];
 
     for (auto &vertex : vertices)
@@ -123,8 +131,6 @@ void line(int x, int y, int dx, int dy, rgba color, int thickness)
 
     float ex = x + dx;
     float ey = y + dy;
-
-    float length = sqrtf(nx * nx + ny * ny);
 
     if (length == 0)
         return;
@@ -149,7 +155,7 @@ void line(int x, int y, int dx, int dy, rgba color, int thickness)
                                   indices::rectangle, 6);
 }
 
-void rect(int x, int y, int w, int h, rgba color)
+void rect(float x, float y, float w, float h, rgba color)
 {
     detail::render::vertex vertices[4];
 
@@ -168,7 +174,7 @@ void rect(int x, int y, int w, int h, rgba color)
                                   indices::rectangle, 6);
 }
 
-void rect_outline(int x, int y, int w, int h, rgba color, int thickness)
+void rect_outline(float x, float y, float w, float h, rgba color, float thickness)
 {
     rect(x, y, w, 1, color);
     rect(x, y, 1, h, color);
@@ -176,7 +182,7 @@ void rect_outline(int x, int y, int w, int h, rgba color, int thickness)
     rect(x, y + h - 1, w, 1, color);
 }
 
-void circle(int x, int y, int radius, rgba color, int thickness, int steps)
+void circle(float x, float y, float radius, rgba color, float thickness, int steps)
 {
     float px = 0;
     float py = 0;
@@ -193,8 +199,8 @@ void circle(int x, int y, int radius, rgba color, int thickness, int steps)
     }
 }
 
-void string(int x, int y, const std::string &string, font &font, rgba color,
-            int *width, int *height)
+void string(float x, float y, const std::string &string, font &font, rgba color,
+            float *width, float *height)
 {
     if (!font.isLoaded())
         font.load();
@@ -205,8 +211,8 @@ void string(int x, int y, const std::string &string, font &font, rgba color,
     internal_draw_string(x, y, string, fnt, color, width, height);
 }
 
-void outlined_string(int x, int y, const std::string &string, font &font,
-                     rgba color, rgba outline, int *width, int *height)
+void outlined_string(float x, float y, const std::string &string, font &font,
+                     rgba color, rgba outline, float *width, float *height)
 {
     if (!font.isLoaded())
         font.load();
@@ -220,8 +226,8 @@ void outlined_string(int x, int y, const std::string &string, font &font,
     internal_draw_string(x, y, string, fnt, color, width, height);
 }
 
-void rect_textured(int x, int y, int w, int h, rgba color, texture &texture,
-                   int tx, int ty, int tw, int th, float angle)
+void rect_textured(float x, float y, float w, float h, rgba color, texture &texture,
+                   float tx, float ty, float tw, float th, float angle)
 {
     if (!texture.isLoaded())
         texture.load();
