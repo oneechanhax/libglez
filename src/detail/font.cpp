@@ -81,7 +81,7 @@ void font::stringSize(const std::string &string, float *width, float *height)
 unsigned create()
 {
     for (auto i = 0u; i < cache->size(); ++i)
-        if (not (*cache)[i].init)
+        if (not(*cache)[i].init)
             return i;
     auto result = cache->size();
     cache->push_back(font{});
@@ -92,5 +92,4 @@ font &get(unsigned handle)
 {
     return (*cache)[handle];
 }
-
 }

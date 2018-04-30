@@ -14,8 +14,7 @@ namespace glez
 class texture
 {
 public:
-    inline explicit texture(std::string path)
-            : path(std::move(path))
+    inline explicit texture(std::string path) : path(std::move(path))
     {
     }
     ~texture();
@@ -52,5 +51,4 @@ protected:
 
     unsigned handle{ std::numeric_limits<unsigned>::max() };
 };
-
 }

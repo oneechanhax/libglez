@@ -17,10 +17,11 @@ namespace indices
 {
 
 static GLuint rectangle[6] = { 0, 1, 2, 2, 3, 0 };
-
 }
 
-void internal_draw_string(int x, int y, const std::string& string, texture_font_t *fnt, glez::rgba color, int *width, int *height)
+void internal_draw_string(int x, int y, const std::string &string,
+                          texture_font_t *fnt, glez::rgba color, int *width,
+                          int *height)
 {
     float pen_x  = x;
     float pen_y  = y + fnt->height / 1.5f;
@@ -56,10 +57,11 @@ void internal_draw_string(int x, int y, const std::string& string, texture_font_
             continue;
         }
         glez::detail::render::vertex vertices[4];
-        for (auto& vertex: vertices)
+        for (auto &vertex : vertices)
         {
             vertex.color = color;
-            vertex.mode = static_cast<int>(glez::detail::program::mode::FREETYPE);
+            vertex.mode =
+                static_cast<int>(glez::detail::program::mode::FREETYPE);
         }
 
         if (i > 0)
@@ -67,33 +69,34 @@ void internal_draw_string(int x, int y, const std::string& string, texture_font_
             x += texture_glyph_get_kerning(glyph, &sstring[i - 1]);
         }
 
-        float x0 = (int)(pen_x + glyph->offset_x);
-        float y0 = (int)(pen_y - glyph->offset_y);
-        float x1 = (int)(x0 + glyph->width);
-        float y1 = (int)(y0 + glyph->height);
+        float x0 = (int) (pen_x + glyph->offset_x);
+        float y0 = (int) (pen_y - glyph->offset_y);
+        float x1 = (int) (x0 + glyph->width);
+        float y1 = (int) (y0 + glyph->height);
         float s0 = glyph->s0;
         float t0 = glyph->t0;
         float s1 = glyph->s1;
         float t1 = glyph->t1;
 
-        vertices[0].position = {x0, y0};
-        vertices[0].uv = {s0, t0};
+        vertices[0].position = { x0, y0 };
+        vertices[0].uv       = { s0, t0 };
 
-        vertices[1].position = {x0, y1};
-        vertices[1].uv = {s0, t1};
+        vertices[1].position = { x0, y1 };
+        vertices[1].uv       = { s0, t1 };
 
-        vertices[2].position = {x1, y1};
-        vertices[2].uv = {s1, t1};
+        vertices[2].position = { x1, y1 };
+        vertices[2].uv       = { s1, t1 };
 
-        vertices[3].position = {x1, y0};
-        vertices[3].uv = {s1, t0};
+        vertices[3].position = { x1, y0 };
+        vertices[3].uv       = { s1, t0 };
 
         pen_x += glyph->advance_x;
-        //pen_x = (int) pen_x + 1;
+        // pen_x = (int) pen_x + 1;
         if (glyph->height > size_y)
             size_y = glyph->height;
 
-        vertex_buffer_push_back(glez::detail::program::buffer, vertices, 4, indices::rectangle, 6);
+        vertex_buffer_push_back(glez::detail::program::buffer, vertices, 4,
+                                indices::rectangle, 6);
     }
 
     if (width)
@@ -105,14 +108,13 @@ void internal_draw_string(int x, int y, const std::string& string, texture_font_
 namespace glez::draw
 {
 
-
 void line(int x, int y, int dx, int dy, rgba color, int thickness)
 {
     detail::render::vertex vertices[4];
 
     for (auto &vertex : vertices)
     {
-        vertex.mode = static_cast<int>(detail::program::mode::PLAIN);
+        vertex.mode  = static_cast<int>(detail::program::mode::PLAIN);
         vertex.color = color;
     }
 
@@ -141,7 +143,8 @@ void line(int x, int y, int dx, int dy, rgba color, int thickness)
     vertices[2].position = { x + dx + nx - px, y + dy + ny - py };
     vertices[3].position = { x + dx - nx - px, y + dy - ny - py };
 
-    ftgl::vertex_buffer_push_back(detail::program::buffer, vertices, 4, indices::rectangle, 6);
+    ftgl::vertex_buffer_push_back(detail::program::buffer, vertices, 4,
+                                  indices::rectangle, 6);
 }
 
 void rect(int x, int y, int w, int h, rgba color)
@@ -150,7 +153,7 @@ void rect(int x, int y, int w, int h, rgba color)
 
     for (auto &vertex : vertices)
     {
-        vertex.mode = static_cast<int>(detail::program::mode::PLAIN);
+        vertex.mode  = static_cast<int>(detail::program::mode::PLAIN);
         vertex.color = color;
     }
 
@@ -159,7 +162,8 @@ void rect(int x, int y, int w, int h, rgba color)
     vertices[2].position = { x + w, y + h };
     vertices[3].position = { x + w, y };
 
-    ftgl::vertex_buffer_push_back(detail::program::buffer, vertices, 4, indices::rectangle, 6);
+    ftgl::vertex_buffer_push_back(detail::program::buffer, vertices, 4,
+                                  indices::rectangle, 6);
 }
 
 void rect_outline(int x, int y, int w, int h, rgba color, int thickness)
@@ -170,8 +174,7 @@ void rect_outline(int x, int y, int w, int h, rgba color, int thickness)
     rect(x, y + h - 1, w, 1, color);
 }
 
-void circle(int x, int y, int radius, rgba color, int thickness,
-                  int steps)
+void circle(int x, int y, int radius, rgba color, int thickness, int steps)
 {
     float px = 0;
     float py = 0;
@@ -181,56 +184,54 @@ void circle(int x, int y, int radius, rgba color, int thickness,
         if (!i)
             ang = 2 * float(M_PI) * (float(steps - 1) / float(steps));
         if (i)
-            line(px, py, x - px + radius * cos(ang),
-                      y - py + radius * sin(ang), color, thickness);
+            line(px, py, x - px + radius * cos(ang), y - py + radius * sin(ang),
+                 color, thickness);
         px = x + radius * cos(ang);
         py = y + radius * sin(ang);
     }
 }
 
-void string(int x, int y, const std::string &string, font& font,
-             rgba color, int *width, int *height)
+void string(int x, int y, const std::string &string, font &font, rgba color,
+            int *width, int *height)
 {
     if (!font.isLoaded())
         font.load();
 
-    auto fnt = glez::detail::font::get(font.getHandle()).font;
-    fnt->rendermode = RENDER_NORMAL;
+    auto fnt               = glez::detail::font::get(font.getHandle()).font;
+    fnt->rendermode        = RENDER_NORMAL;
     fnt->outline_thickness = 0.0f;
     internal_draw_string(x, y, string, fnt, color, width, height);
-
 }
 
-void outlined_string(int x, int y, const std::string &string,
-                     font& font, rgba color,
-                           rgba outline, int *width, int *height)
+void outlined_string(int x, int y, const std::string &string, font &font,
+                     rgba color, rgba outline, int *width, int *height)
 {
     if (!font.isLoaded())
         font.load();
 
-    auto fnt = glez::detail::font::get(font.getHandle()).font;
-    fnt->rendermode = RENDER_OUTLINE_POSITIVE;
+    auto fnt               = glez::detail::font::get(font.getHandle()).font;
+    fnt->rendermode        = RENDER_OUTLINE_POSITIVE;
     fnt->outline_thickness = 1.0f;
     internal_draw_string(x, y, string, fnt, outline, width, height);
-    fnt->rendermode = RENDER_NORMAL;
+    fnt->rendermode        = RENDER_NORMAL;
     fnt->outline_thickness = 0.0f;
     internal_draw_string(x, y, string, fnt, color, width, height);
 }
 
-void
-rect_textured(int x, int y, int w, int h, rgba color, texture &texture, int tx, int ty, int tw, int th, float angle)
+void rect_textured(int x, int y, int w, int h, rgba color, texture &texture,
+                   int tx, int ty, int tw, int th, float angle)
 {
     if (!texture.isLoaded())
         texture.load();
 
-    auto& tex = detail::texture::get(texture.getHandle());
+    auto &tex = detail::texture::get(texture.getHandle());
     tex.bind();
 
     detail::render::vertex vertices[4];
 
     for (auto &vertex : vertices)
     {
-        vertex.mode = static_cast<int>(detail::program::mode::TEXTURED);
+        vertex.mode  = static_cast<int>(detail::program::mode::TEXTURED);
         vertex.color = color;
     }
 
@@ -244,13 +245,15 @@ rect_textured(int x, int y, int w, int h, rgba color, texture &texture, int tx, 
         float cx = x + float(w) / 2.0f;
         float cy = y + float(h) / 2.0f;
 
-        for (auto& v: vertices)
+        for (auto &v : vertices)
         {
             float ox = v.position.x;
             float oy = v.position.y;
 
-            v.position.x = cx + cosf(angle) * (ox - cx) - sinf(angle) * (oy - cy);
-            v.position.y = cy + sinf(angle) * (ox - cx) + cosf(angle) * (oy - cy);
+            v.position.x =
+                cx + cosf(angle) * (ox - cx) - sinf(angle) * (oy - cy);
+            v.position.y =
+                cy + sinf(angle) * (ox - cx) + cosf(angle) * (oy - cy);
         }
     }
 
@@ -259,13 +262,12 @@ rect_textured(int x, int y, int w, int h, rgba color, texture &texture, int tx, 
     float t0 = float(ty) / texture.getHeight();
     float t1 = float(ty + th) / texture.getHeight();
 
-    vertices[0].uv = {s0, t0};
-    vertices[1].uv = {s0, t1};
-    vertices[2].uv = {s1, t1};
-    vertices[3].uv = {s1, t0};
+    vertices[0].uv = { s0, t0 };
+    vertices[1].uv = { s0, t1 };
+    vertices[2].uv = { s1, t1 };
+    vertices[3].uv = { s1, t0 };
 
-    ftgl::vertex_buffer_push_back(detail::program::buffer, vertices, 4, indices::rectangle, 6);
+    ftgl::vertex_buffer_push_back(detail::program::buffer, vertices, 4,
+                                  indices::rectangle, 6);
 }
-
-
 }

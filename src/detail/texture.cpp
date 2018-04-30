@@ -10,7 +10,9 @@
 #include <png.hpp>
 #include <memory>
 
-static std::unique_ptr<std::vector<glez::detail::texture::texture>> cache{ nullptr };
+static std::unique_ptr<std::vector<glez::detail::texture::texture>> cache{
+    nullptr
+};
 
 namespace glez::detail::texture
 {
@@ -32,8 +34,8 @@ void texture::bind()
         glGenTextures(1, &id);
         glBindTexture(GL_TEXTURE_2D, id);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height,
-                     0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
+                     GL_UNSIGNED_BYTE, data);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -47,17 +49,18 @@ void texture::bind()
 void texture::load(const std::string &path)
 {
     png::image<png::rgba_pixel> image(path);
-    width = image.get_width();
-    height = image.get_height();
-    init = true;
-    bound = false;
-    id = 0;
+    width      = image.get_width();
+    height     = image.get_height();
+    init       = true;
+    bound      = false;
+    id         = 0;
     auto bytes = image.get_width() * image.get_height() * 4;
-    data = new GLubyte[bytes];
+    data       = new GLubyte[bytes];
 
     for (int i = 0; i < image.get_height(); ++i)
     {
-        memcpy(data + image.get_width() * 4 * i, image.get_pixbuf().get_row(i).data(), image.get_width() * 4);
+        memcpy(data + image.get_width() * 4 * i,
+               image.get_pixbuf().get_row(i).data(), image.get_width() * 4);
     }
 }
 
@@ -70,7 +73,7 @@ void texture::unload()
     init = false;
 }
 
-texture& get(unsigned handle)
+texture &get(unsigned handle)
 {
     return (*cache)[handle];
 }
@@ -78,11 +81,10 @@ texture& get(unsigned handle)
 unsigned create()
 {
     for (auto i = 0u; i < cache->size(); ++i)
-        if (not (*cache)[i].init)
+        if (not(*cache)[i].init)
             return i;
     auto result = cache->size();
     cache->push_back(texture{});
     return result;
 }
-
 }

@@ -17,16 +17,15 @@ font::~font()
 
 void font::load()
 {
-    handle = detail::font::create();
-    auto& font = detail::font::get(handle);
+    handle     = detail::font::create();
+    auto &font = detail::font::get(handle);
     font.load(path, size);
     loaded = true;
 }
 
 void font::unload()
 {
-    auto& font = detail::font::get(handle);
+    auto &font = detail::font::get(handle);
     font.unload();
 }
-
 }

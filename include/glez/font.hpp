@@ -15,7 +15,7 @@ class font
 {
 public:
     inline font(std::string path, float size)
-            : path(std::move(path)), size(size)
+        : path(std::move(path)), size(size)
     {
     }
     ~font();
@@ -41,5 +41,4 @@ protected:
 
     unsigned handle{ std::numeric_limits<unsigned>::max() };
 };
-
 }

@@ -117,9 +117,10 @@ void resize(int width, int height)
 
 void init(int width, int height)
 {
-    buffer = ftgl::vertex_buffer_new("vertex:2f,tex_coord:2f,color:4f,drawmode:1i");
-    shader = link(compile(shader_vertex, GL_VERTEX_SHADER), compile(shader_fragment, GL_FRAGMENT_SHADER));
-
+    buffer =
+        ftgl::vertex_buffer_new("vertex:2f,tex_coord:2f,color:4f,drawmode:1i");
+    shader = link(compile(shader_vertex, GL_VERTEX_SHADER),
+                  compile(shader_fragment, GL_FRAGMENT_SHADER));
 
     mat4 model, view;
 
@@ -157,5 +158,4 @@ unsigned next_index()
 {
     return buffer->vertices->size;
 }
-
 }

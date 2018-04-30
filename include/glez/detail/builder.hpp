@@ -16,10 +16,11 @@ class Builder
 public:
     Builder(int mode, GLuint texture);
 
-    Builder& setColor(types::rgba color);
+    Builder &setColor(types::rgba color);
 
-    Builder& push(float x, float y, float u, float v);
-    Builder& push(float x, float y);
+    Builder &push(float x, float y, float u, float v);
+    Builder &push(float x, float y);
+
 protected:
     types::rgba color;
 
@@ -27,5 +28,4 @@ protected:
     int mode{ 0 };
     std::vector<render::vertex> vertices{};
 };
-
 }

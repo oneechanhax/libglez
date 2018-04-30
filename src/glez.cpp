@@ -39,5 +39,4 @@ void end()
 {
     detail::render::end();
 }
-
 }

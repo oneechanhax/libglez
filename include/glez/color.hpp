@@ -16,7 +16,7 @@ struct rgba
     {
     }
     inline constexpr rgba(int r, int g, int b, int a)
-            : r(r / 255.0f), g(g / 255.0f), b(b / 255.0f), a(a / 255.0f)
+        : r(r / 255.0f), g(g / 255.0f), b(b / 255.0f), a(a / 255.0f)
     {
     }
 
@@ -35,7 +35,5 @@ constexpr rgba black(0, 0, 0);
 constexpr rgba red(255, 0, 0);
 constexpr rgba green(0, 255, 0);
 constexpr rgba blue(0, 0, 255);
-
 }
-
 }

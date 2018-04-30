@@ -14,9 +14,9 @@ namespace glez::detail::font
 
 struct font
 {
-    void load(const std::string& path, float size);
+    void load(const std::string &path, float size);
     void unload();
-    void stringSize(const std::string& string, float *width, float *height);
+    void stringSize(const std::string &string, float *width, float *height);
 
     bool init{ false };
 
@@ -28,6 +28,5 @@ void init();
 void shutdown();
 
 unsigned create();
-font& get(unsigned handle);
-
+font &get(unsigned handle);
 }

@@ -60,5 +60,4 @@ void bind(GLuint texture)
         glBindTexture(GL_TEXTURE_2D, texture);
     }
 }
-
 }

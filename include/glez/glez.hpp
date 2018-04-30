@@ -15,5 +15,4 @@ void resize(int width, int height);
 
 void begin();
 void end();
-
 };
