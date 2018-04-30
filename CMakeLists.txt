@@ -8,7 +8,7 @@ set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS ${CMAKE_BUILD_TYPE_VALUES})
 
 cmake_minimum_required(VERSION 3.0)
 
-project(glez VERSION 0.0.1)
+project(glez VERSION 0.1.0)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -47,6 +47,6 @@ add_subdirectory(src)
 add_subdirectory(ftgl)
 
 install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME} DESTINATION "${lib_dest}")
-install(FILES "include/glez.h" DESTINATION "${include_dest}")
+install(DIRECTORY "include/glez" DESTINATION "${include_dest}")
 install(EXPORT ${PROJECT_NAME} DESTINATION "${lib_dest}")
 install(FILES ${PROJECT_NAME}-config.cmake DESTINATION ${export_dest})

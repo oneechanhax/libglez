@@ -6,7 +6,7 @@
 #pragma once
 
 #include <freetype-gl.h>
-#include "glez/types.hpp"
+#include <glez/color.hpp>
 
 namespace glez::detail::render
 {
@@ -15,7 +15,7 @@ struct vertex
 {
     ftgl::vec2 position;
     ftgl::vec2 uv;
-    types::rgba color;
+    rgba color;
     int mode;
 };
 

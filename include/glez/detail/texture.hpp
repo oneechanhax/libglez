@@ -8,7 +8,6 @@
 #include <freetype-gl.h>
 #include <string>
 #include <limits>
-#include <glez/types.hpp>
 
 namespace glez::detail::texture
 {
@@ -32,7 +31,7 @@ struct texture
 void init();
 void shutdown();
 
-glez::types::handle_type create();
-texture& get(glez::types::handle_type handle);
+unsigned create();
+texture& get(unsigned handle);
 
 }

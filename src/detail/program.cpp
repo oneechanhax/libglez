@@ -12,39 +12,32 @@
 #include <cassert>
 
 static const char *shader_vertex = R"END(
-#version 130
-
+#version 150
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
-
 in vec2 vertex;
 in vec2 tex_coord;
 in vec4 color;
 in int drawmode;
-
 flat out int frag_DrawMode;
-
 out vec4 frag_Color;
-out vec4 frag_TexCoord;
-
+out vec2 frag_TexCoord;
 void main()
 {
+    gl_Position   = projection*(view*(model*vec4(vertex,0.0,1.0)));
     frag_TexCoord = tex_coord;
     frag_Color = color;
     frag_DrawMode = drawmode;
-    gl_Position = projection * (view * (model * vec4(vertex, 0.0, 1.0)));
 }
 )END";
 
 static const char *shader_fragment = R"END(
 #version 130
-
 uniform sampler2D texture;
 in vec4 frag_Color;
 in vec2 frag_TexCoord;
 flat in int frag_DrawMode;
-
 void main()
 {
    if (frag_DrawMode == 1)
@@ -64,7 +57,6 @@ void main()
 }
 )END";
 
-static vertex_buffer_t *buffer{ nullptr };
 static GLuint shader{ 0 };
 
 GLuint compile(const char *source, GLenum type)
@@ -72,17 +64,17 @@ GLuint compile(const char *source, GLenum type)
     GLint status;
     GLuint result = glCreateShader(type);
 
-    glShaderSource(shader, 1, &source, 0);
-    glCompileShader(shader);
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
+    glShaderSource(result, 1, &source, 0);
+    glCompileShader(result);
+    glGetShaderiv(result, GL_COMPILE_STATUS, &status);
 
     if (status != GL_TRUE)
     {
         char error[512];
         GLsizei length;
-        glGetShaderInfoLog(shader, 512, &length, error);
-        fprintf(stderr, "GLEZ: Shader compile error: %s\n", error);
-        throw std::runtime_error("Shader compile error");
+        glGetShaderInfoLog(result, 512, &length, error);
+        fprintf(stderr, "GLEZ: Shader compile error: %s, %s\n", error, source);
+        throw std::runtime_error("Shader compile error: " + std::string(error));
     }
 
     return result;
@@ -109,6 +101,19 @@ GLuint link(GLuint vertex, GLuint fragment)
 
 namespace glez::detail::program
 {
+
+vertex_buffer_t *buffer{ nullptr };
+
+void resize(int width, int height)
+{
+    glUseProgram(shader);
+    mat4 projection;
+    mat4_set_identity(&projection);
+    mat4_set_orthographic(&projection, 0, width, height, 0, -1, 1);
+    glUniformMatrix4fv(glGetUniformLocation(shader, "projection"), 1, 0,
+                       projection.data);
+    glUseProgram(0);
+}
 
 void init(int width, int height)
 {

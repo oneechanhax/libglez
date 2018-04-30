@@ -66,13 +66,13 @@ void texture::unload()
     init = false;
 }
 
-texture& get(glez::types::handle_type handle)
+texture& get(unsigned handle)
 {
     assert(cache->at(handle).init);
     return (*cache)[handle];
 }
 
-glez::types::handle_type create()
+unsigned create()
 {
     for (auto i = 0u; i < cache->size(); ++i)
         if (not (*cache)[i].init)

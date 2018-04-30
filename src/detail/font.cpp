@@ -78,14 +78,20 @@ void font::stringSize(const std::string &string, float *width, float *height)
         *height = size_y;
 }
 
-glez::types::handle_type create()
+unsigned create()
 {
-    return 0;
+    for (auto i = 0u; i < cache->size(); ++i)
+        if (not (*cache)[i].init)
+            return i;
+    auto result = cache->size() - 1;
+    cache->push_back(font{});
+    return result;
 }
 
-font &get(glez::types::handle_type handle)
+font &get(unsigned handle)
 {
-    return cache->at(0);
+    assert(cache->at(handle).init);
+    return (*cache)[handle];
 }
 
 }

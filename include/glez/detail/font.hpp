@@ -8,7 +8,6 @@
 #include <freetype-gl.h>
 #include <limits>
 #include <string>
-#include <glez/types.hpp>
 
 namespace glez::detail::font
 {
@@ -28,7 +27,7 @@ struct font
 void init();
 void shutdown();
 
-glez::types::handle_type create();
-font& get(glez::types::handle_type handle);
+unsigned create();
+font& get(unsigned handle);
 
 }

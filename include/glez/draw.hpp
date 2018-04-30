@@ -6,17 +6,18 @@
 #pragma once
 
 #include <string>
-#include "types.hpp"
+#include "color.hpp"
+#include "font.hpp"
 
 namespace glez::draw
 {
 
-void line(int x, int y, int dx, int dy, types::rgba color, int thickness);
-void rect(int x, int y, int w, int h, types::rgba color);
-void rect_outline(int x, int y, int w, int h, types::rgba color, int thickness);
-void circle(int x, int y, int radius, types::rgba color, int thickness, int steps);
+void line(int x, int y, int dx, int dy, rgba color, int thickness);
+void rect(int x, int y, int w, int h, rgba color);
+void rect_outline(int x, int y, int w, int h, rgba color, int thickness);
+void circle(int x, int y, int radius, rgba color, int thickness, int steps);
 
-void string(int x, int y, const std::string& string, types::handle_type font, types::rgba color, int *width, int *height);
-void outlined_string(int x, int y, const std::string& string, types::handle_type font, types::rgba color, types::rgba outline, int *width, int *height);
+void string(int x, int y, const std::string& string, const font& font, rgba color, int *width, int *height);
+void outlined_string(int x, int y, const std::string& string, const font& font, rgba color, rgba outline, int *width, int *height);
 
 }

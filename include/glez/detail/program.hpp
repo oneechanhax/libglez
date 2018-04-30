@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include <vertex-buffer.h>
+
 namespace glez::detail::program
 {
 
@@ -24,5 +26,7 @@ void draw();
 void reset();
 
 unsigned next_index();
+
+extern vertex_buffer_t *buffer;
 
 };

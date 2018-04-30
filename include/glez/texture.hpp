@@ -6,7 +6,7 @@
 #pragma once
 
 #include <string>
-#include "types.hpp"
+#include <limits>
 
 namespace glez
 {
@@ -44,7 +44,7 @@ protected:
     int height{ 0 };
     bool loaded{ false };
 
-    glez::types::handle_type handle{ glez::types::undefined };
+    unsigned handle{ std::numeric_limits<unsigned>::max() };
 };
 
 }
