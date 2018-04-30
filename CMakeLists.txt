@@ -8,7 +8,9 @@ set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS ${CMAKE_BUILD_TYPE_VALUES})
 
 cmake_minimum_required(VERSION 3.0)
 
-project(glez LANGUAGES C VERSION 0.0.1)
+project(glez VERSION 0.0.1)
+
+set(CMAKE_CXX_STANDARD 11)
 
 set(export_dest "lib/${PROJECT_NAME}-${PROJECT_VERSION}")
 set(include_dest "include/${PROJECT_NAME}-${PROJECT_VERSION}")

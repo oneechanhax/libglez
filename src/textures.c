@@ -110,15 +110,15 @@ int internal_texture_load_png_rgba(const char *name, internal_texture_t *out)
     return 0;
 }
 
-internal_texture_t *internal_texture_get(glez_texture_t handle)
+/*internal_texture_t *internal_texture_get(glez_texture_t handle)
 {
     assert(handle < GLEZ_TEXTURE_COUNT);
     assert(loaded_textures[handle].init);
 
     return &loaded_textures[handle];
-}
+}*/
 
-void internal_texture_bind(glez_texture_t handle)
+/*void internal_texture_bind(glez_texture_t handle)
 {
     internal_texture_t *texture = internal_texture_get(handle);
 
@@ -137,7 +137,7 @@ void internal_texture_bind(glez_texture_t handle)
     }
 
     ds_bind_texture(texture->texture_id);
-}
+}*/
 
 glez_texture_t glez_texture_load_png_rgba(const char *path)
 {
