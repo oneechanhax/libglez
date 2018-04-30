@@ -53,15 +53,19 @@ void glez_resize(int width, int height)
 void glez_line(float x, float y, float dx, float dy, glez_rgba_t color,
                float thickness)
 {
-    /*x += 0.375f;
-    y += 0.375f;*/
+    /*x += 0.325f;
+    y += 0.325f;
 
-    GLuint indices[6] = { 0, 1, 3, 3, 2, 0 };
+    dx -= 0.325f;
+    dy -= 0.325f;*/
+    x += 1;
+
+    GLuint indices[6] = { 0, 3, 2, 2, 1, 0 };
 
     struct vertex_main vertices[4];
 
-    float nx = -dy;
-    float ny = dx;
+    float nx = dx;
+    float ny = dy;
 
     float ex = x + dx;
     float ey = y + dy;
@@ -71,27 +75,32 @@ void glez_line(float x, float y, float dx, float dy, glez_rgba_t color,
     if (length == 0)
         return;
 
-    length /= thickness;
     nx /= length;
     ny /= length;
+    
+    nx *= thickness * 0.5f;
+    ny *= thickness * 0.5f;
 
-    vertices[0].position.x = x - nx;
-    vertices[0].position.y = y - ny;
+    float px = ny;
+    float py = -nx;
+    
+    vertices[0].position.x = x + -nx +  px;
+    vertices[0].position.y = y + -ny +  py;
     vertices[0].color      = color;
     vertices[0].mode       = DRAW_MODE_PLAIN;
 
-    vertices[1].position.x = x + nx;
-    vertices[1].position.y = y + ny;
+    vertices[1].position.x = ex +  nx +  px;
+    vertices[1].position.y = ey +  ny +  py;
     vertices[1].color      = color;
     vertices[1].mode       = DRAW_MODE_PLAIN;
 
-    vertices[2].position.x = ex - nx;
-    vertices[2].position.y = ey - ny;
+    vertices[2].position.x = ex +  nx + -px;
+    vertices[2].position.y = ey +  ny + -py;
     vertices[2].color      = color;
     vertices[2].mode       = DRAW_MODE_PLAIN;
 
-    vertices[3].position.x = ex + nx;
-    vertices[3].position.y = ey + ny;
+    vertices[3].position.x = x + -nx + -px;
+    vertices[3].position.y = y + -ny + -py;
     vertices[3].color      = color;
     vertices[3].mode       = DRAW_MODE_PLAIN;
 
@@ -100,9 +109,6 @@ void glez_line(float x, float y, float dx, float dy, glez_rgba_t color,
 
 void glez_rect(float x, float y, float w, float h, glez_rgba_t color)
 {
-    /*x += 0.375f;
-    y += 0.375f;*/
-
     struct vertex_main vertices[4];
     GLuint indices[6] = { 0, 1, 2, 2, 3, 0 };
 
@@ -132,10 +138,10 @@ void glez_rect(float x, float y, float w, float h, glez_rgba_t color)
 void glez_rect_outline(float x, float y, float w, float h, glez_rgba_t color,
                        float thickness)
 {
-    glez_line(x, y, w, 0, color, thickness);
-    glez_line(x + w, y, 0, h, color, thickness);
-    glez_line(x + w, y + h, -w, 0, color, thickness);
-    glez_line(x, y + h, 0, -h, color, thickness);
+    glez_rect(x, y, w, 1, color);
+    glez_rect(x, y, 1, h, color);
+    glez_rect(x + w - 1, y, 1, h, color);
+    glez_rect(x, y + h - 1, w, 1, color);
 }
 void glez_rect_textured(float x, float y, float w, float h, glez_rgba_t color,
                         glez_texture_t texture, float tx, float ty, float tw,

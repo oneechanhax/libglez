@@ -46,7 +46,7 @@ const char *shader_ultimate_vert =
     "{\n"
     "    frag_TexCoord = tex_coord;\n"
     "    frag_Color    = color;\n"
-    "    gl_Position   = projection*(view*(model*vec4(vertex,0.0,1.0)));\n"
+    "    gl_Position   = projection*(view*(model*(vec4(vertex,0.0,1.0))));\n"
     "    frag_DrawMode = drawmode;\n"
     "}";
 const char *shader_ultimate_frag =
@@ -111,7 +111,7 @@ void program_init(int width, int height)
     mat4_set_identity(&model);
     mat4_set_identity(&view);
     mat4_set_identity(&projection);
-    mat4_set_orthographic(&projection, 0, width, height, 0, -1, 1);
+    mat4_set_orthographic(&projection, 0, width, height, 0, 0, 1);
 
     glUniformMatrix4fv(glGetUniformLocation(program.shader, "model"), 1, 0,
                        model.data);
