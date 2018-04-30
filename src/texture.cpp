@@ -18,14 +18,16 @@ texture::~texture()
 void texture::load()
 {
     handle = detail::texture::create();
-    auto texture = detail::texture::get(handle);
+    auto& texture = detail::texture::get(handle);
     texture.load(path);
+    width = texture.width;
+    height = texture.height;
     loaded = true;
 }
 
 void texture::unload()
 {
-    auto texture = detail::texture::get(handle);
+    auto& texture = detail::texture::get(handle);
     texture.unload();
 }
 

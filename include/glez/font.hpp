@@ -20,22 +20,23 @@ public:
     }
     ~font();
 
-    inline float getSize() const
+    inline unsigned getHandle() const
     {
-        return size;
+        return handle;
     }
 
-    inline const std::string& getPath() const
+    inline bool isLoaded() const
     {
-        return path;
+        return loaded;
     }
-protected:
+
     void load();
     void unload();
 
     const std::string path;
     const float size;
 
+protected:
     bool loaded{ false };
 
     unsigned handle{ std::numeric_limits<unsigned>::max() };

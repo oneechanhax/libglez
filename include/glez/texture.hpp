@@ -30,16 +30,22 @@ public:
         return height;
     }
 
-    inline const std::string& getPath() const
+    inline unsigned getHandle() const
     {
-        return path;
+        return handle;
     }
-protected:
+
+    inline bool isLoaded() const
+    {
+        return loaded;
+    }
+
     void load();
     void unload();
 
     const std::string path;
 
+protected:
     int width{ 0 };
     int height{ 0 };
     bool loaded{ false };

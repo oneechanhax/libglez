@@ -83,14 +83,13 @@ unsigned create()
     for (auto i = 0u; i < cache->size(); ++i)
         if (not (*cache)[i].init)
             return i;
-    auto result = cache->size() - 1;
+    auto result = cache->size();
     cache->push_back(font{});
     return result;
 }
 
 font &get(unsigned handle)
 {
-    assert(cache->at(handle).init);
     return (*cache)[handle];
 }
 
