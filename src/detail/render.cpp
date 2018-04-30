@@ -6,12 +6,9 @@
 #include <glez/detail/render.hpp>
 #include <glez/detail/font.hpp>
 #include <cstring>
+#include <glez/detail/program.hpp>
 
-static struct
-{
-    GLuint texture{ 0 };
-    glez::detail::font::font::handle_type font{ glez::detail::font::font::undefined };
-} state;
+static GLuint current_texture{ 0 };
 
 namespace glez::detail::render
 {
@@ -42,19 +39,26 @@ void begin()
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_INDEX_ARRAY);
 
-    state.texture = 0;
-    state.font =
+    current_texture = 0;
 }
 
 void end()
 {
+    program::draw();
+    program::reset();
     glPopClientAttrib();
     glPopAttrib();
 }
 
 void bind(GLuint texture)
 {
-
+    if (current_texture != texture)
+    {
+        program::draw();
+        program::reset();
+        current_texture = texture;
+        glBindTexture(GL_TEXTURE_2D, texture);
+    }
 }
 
 }

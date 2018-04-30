@@ -7,6 +7,7 @@
 
 #include <freetype-gl.h>
 #include <limits>
+#include <string>
 #include <glez/types.hpp>
 
 namespace glez::detail::font
@@ -14,6 +15,10 @@ namespace glez::detail::font
 
 struct font
 {
+    void load(const std::string& path, float size);
+    void unload();
+    void stringSize(const std::string& string, float *width, float *height);
+
     bool init{ false };
 
     texture_font_t *font{ nullptr };
@@ -23,6 +28,7 @@ struct font
 void init();
 void shutdown();
 
-font *get(glez::types::handle_type handle);
+glez::types::handle_type create();
+font& get(glez::types::handle_type handle);
 
 }

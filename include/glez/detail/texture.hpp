@@ -16,23 +16,23 @@ namespace glez::detail::texture
 struct texture
 {
     void bind();
-    bool load(const std::string& type);
+    void load(const std::string& path);
+    void unload();
 
     bool init{ false };
     bool bound{ false };
 
-    GLuint id;
-    GLubyte *data;
-
     int width{ 0 };
     int height{ 0 };
 
-    char filename[256];
+    GLuint id;
+    GLubyte *data;
 };
 
 void init();
 void shutdown();
 
+glez::types::handle_type create();
 texture& get(glez::types::handle_type handle);
 
 }
