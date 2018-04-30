@@ -108,7 +108,40 @@ namespace glez::draw
 
 void line(int x, int y, int dx, int dy, rgba color, int thickness)
 {
+    detail::render::vertex vertices[4];
 
+    for (auto &vertex : vertices)
+    {
+        vertex.mode = static_cast<int>(detail::program::mode::PLAIN);
+        vertex.color = color;
+    }
+
+    float nx = dx;
+    float ny = dy;
+
+    float ex = x + dx;
+    float ey = y + dy;
+
+    float length = sqrtf(nx * nx + ny * ny);
+
+    if (length == 0)
+        return;
+
+    nx /= length;
+    ny /= length;
+
+    nx *= thickness * 0.5f;
+    ny *= thickness * 0.5f;
+
+    float px = ny;
+    float py = -nx;
+
+    vertices[0].position = { x - nx + px, y - ny + py };
+    vertices[1].position = { x + nx + px, y + ny + py };
+    vertices[2].position = { x + dx + nx - px, y + dy + ny - py };
+    vertices[3].position = { x + dx - nx - px, y + dy - ny - py };
+
+    ftgl::vertex_buffer_push_back(detail::program::buffer, vertices, 4, indices::rectangle, 6);
 }
 
 void rect(int x, int y, int w, int h, rgba color)
@@ -131,13 +164,28 @@ void rect(int x, int y, int w, int h, rgba color)
 
 void rect_outline(int x, int y, int w, int h, rgba color, int thickness)
 {
-
+    rect(x, y, w, 1, color);
+    rect(x, y, 1, h, color);
+    rect(x + w - 1, y, 1, h, color);
+    rect(x, y + h - 1, w, 1, color);
 }
 
 void circle(int x, int y, int radius, rgba color, int thickness,
                   int steps)
 {
-
+    float px = 0;
+    float py = 0;
+    for (int i = 0; i < steps; i++)
+    {
+        float ang = 2 * float(M_PI) * (float(i) / steps);
+        if (!i)
+            ang = 2 * float(M_PI) * (float(steps - 1) / float(steps));
+        if (i)
+            line(px, py, x - px + radius * cos(ang),
+                      y - py + radius * sin(ang), color, thickness);
+        px = x + radius * cos(ang);
+        py = y + radius * sin(ang);
+    }
 }
 
 void string(int x, int y, const std::string &string, font& font,
