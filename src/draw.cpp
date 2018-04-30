@@ -132,16 +132,18 @@ void line(int x, int y, int dx, int dy, rgba color, int thickness)
     nx /= length;
     ny /= length;
 
-    nx *= thickness * 0.5f;
-    ny *= thickness * 0.5f;
+    float th = thickness;
+
+    nx *= th * 0.5f;
+    ny *= th * 0.5f;
 
     float px = ny;
     float py = -nx;
 
-    vertices[0].position = { x - nx + px, y - ny + py };
-    vertices[1].position = { x + nx + px, y + ny + py };
-    vertices[2].position = { x + dx + nx - px, y + dy + ny - py };
-    vertices[3].position = { x + dx - nx - px, y + dy - ny - py };
+    vertices[2].position = { float(x) - nx + px, float(y) - ny + py };
+    vertices[1].position = { float(x) - nx - px, float(y) - ny - py };
+    vertices[3].position = { ex + nx + px, ey + ny + py };
+    vertices[0].position = { ex + nx - px, ey + ny - py };
 
     ftgl::vertex_buffer_push_back(detail::program::buffer, vertices, 4,
                                   indices::rectangle, 6);
@@ -178,11 +180,11 @@ void circle(int x, int y, int radius, rgba color, int thickness, int steps)
 {
     float px = 0;
     float py = 0;
-    for (int i = 0; i < steps; i++)
+    for (int i = 0; i <= steps; i++)
     {
         float ang = 2 * float(M_PI) * (float(i) / steps);
         if (!i)
-            ang = 2 * float(M_PI) * (float(steps - 1) / float(steps));
+            ang = 2 * float(M_PI);
         if (i)
             line(px, py, x - px + radius * cos(ang), y - py + radius * sin(ang),
                  color, thickness);

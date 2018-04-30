@@ -13,8 +13,6 @@
 
 static const char *shader_vertex = R"END(
 #version 150
-uniform mat4 model;
-uniform mat4 view;
 uniform mat4 projection;
 in vec2 vertex;
 in vec2 tex_coord;
@@ -25,7 +23,7 @@ out vec4 frag_Color;
 out vec2 frag_TexCoord;
 void main()
 {
-    gl_Position   = projection*(view*(model*vec4(vertex,0.0,1.0)));
+    gl_Position   = projection*vec4(vertex + vec2(0.0, -0.05),0.0,1.0);
     frag_TexCoord = tex_coord;
     frag_Color = color;
     frag_DrawMode = drawmode;
@@ -122,16 +120,9 @@ void init(int width, int height)
     shader = link(compile(shader_vertex, GL_VERTEX_SHADER),
                   compile(shader_fragment, GL_FRAGMENT_SHADER));
 
-    mat4 model, view;
-
-    mat4_set_identity(&model);
-    mat4_set_identity(&view);
-
     resize(width, height);
     glUseProgram(shader);
 
-    glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, 0, model.data);
-    glUniformMatrix4fv(glGetUniformLocation(shader, "view"), 1, 0, view.data);
     glUniform1i(glGetUniformLocation(shader, "texture"), 0);
     glUseProgram(0);
 }
