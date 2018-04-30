@@ -16,38 +16,6 @@
 #include <math.h>
 #include <string.h>
 
-/* State functions */
-
-void glez_init(int width, int height)
-{
-    ds_init();
-    program_init(width, height);
-    internal_fonts_init();
-    internal_textures_init();
-}
-
-void glez_shutdown()
-{
-    ds_destroy();
-    internal_fonts_destroy();
-    internal_textures_destroy();
-}
-
-void glez_begin()
-{
-    ds_pre_render();
-}
-
-void glez_end()
-{
-    ds_post_render();
-}
-
-void glez_resize(int width, int height)
-{
-    shader_screen_size(width, height);
-}
-
 /* Drawing functions */
 
 void glez_line(float x, float y, float dx, float dy, glez_rgba_t color,

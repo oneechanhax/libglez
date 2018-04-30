@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <GL/gl.h>
+#include <freetype-gl.h>
 #include <string>
 #include <limits>
 #include <glez/types.hpp>

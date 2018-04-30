@@ -6,7 +6,6 @@
 #include <glez/detail/texture.hpp>
 #include <glez/detail/render.hpp>
 #include <cassert>
-#include <glez/glez.hpp>
 #include <vector>
 #include <png.hpp>
 #include <memory>

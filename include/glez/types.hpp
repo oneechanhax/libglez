@@ -25,6 +25,17 @@ struct rgba
     };
 };
 
+struct cached_shape
+{
+private:
+    cached_shape();
+public:
+    ~cached_shape();
+
+    const unsigned texture;
+    const void *const data;
+};
+
 using handle_type = unsigned;
 constexpr handle_type undefined = std::numeric_limits<handle_type>::max();
 

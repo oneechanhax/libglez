@@ -26,6 +26,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS
 
 target_include_directories(${PROJECT_NAME} PRIVATE 
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/glez>
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/ftgl>
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/pngpp>
     $<BUILD_INTERFACE:${FREETYPE_INCLUDE_DIRS}>
@@ -41,7 +42,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE ${PNG_DEFINITIONS})
 
 target_link_libraries(${PROJECT_NAME} ${FREETYPE_LIBRARIES} ${PNG_LIBRARIES} ${GLEW_LIBRARIES})
 
-add_subdirectory(include)
+add_subdirectory(include/glez)
 add_subdirectory(src)
 add_subdirectory(ftgl)
 

@@ -85,7 +85,7 @@ glez::types::handle_type create()
 
 font &get(glez::types::handle_type handle)
 {
-    return <#initializer#>;
+    return cache->at(0);
 }
 
 }

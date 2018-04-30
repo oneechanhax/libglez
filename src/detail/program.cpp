@@ -116,7 +116,7 @@ void init(int width, int height)
     shader = link(compile(shader_vertex, GL_VERTEX_SHADER), compile(shader_fragment, GL_FRAGMENT_SHADER));
 
 
-    ftgl::mat4 model, view;
+    mat4 model, view;
 
     mat4_set_identity(&model);
     mat4_set_identity(&view);
@@ -134,16 +134,6 @@ void shutdown()
 {
     ftgl::vertex_buffer_delete(buffer);
     glDeleteProgram(shader);
-}
-
-void resize(int width, int height)
-{
-    glUseProgram(shader);
-    ftgl::mat4 projection;
-    ftgl::mat4_set_identity(&projection);
-    ftgl::mat4_set_orthographic(&projection, 0, width, height, 0, -1, 1);
-    glUniformMatrix4fv(glGetUniformLocation(shader, "projection"), 1, 0, projection.data);
-    glUseProgram(0);
 }
 
 void draw()
