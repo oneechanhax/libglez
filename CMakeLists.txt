@@ -14,7 +14,6 @@ set(export_dest "lib/${PROJECT_NAME}-${PROJECT_VERSION}")
 set(include_dest "include/${PROJECT_NAME}-${PROJECT_VERSION}")
 set(lib_dest "${export_dest}/${CMAKE_BUILD_TYPE}")
 
-find_package(Freetype REQUIRED)
 find_package(PNG REQUIRED)
 find_package(GLEW REQUIRED)
 
@@ -25,7 +24,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS
 target_include_directories(${PROJECT_NAME} PRIVATE 
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/ftgl>
-    $<BUILD_INTERFACE:${FREETYPE_INCLUDE_DIRS}>
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/freetype/include/freetype2>
     $<BUILD_INTERFACE:${PNG_INCLUDE_DIR}>
     $<BUILD_INTERFACE:${GLEW_INCLUDE_DIRS}>
 )
@@ -36,7 +35,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE ${PNG_DEFINITIONS})
 
-target_link_libraries(${PROJECT_NAME} ${FREETYPE_LIBRARIES} ${PNG_LIBRARIES} ${GLEW_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${PNG_LIBRARIES} ${GLEW_LIBRARIES} ${PROJECT_SOURCE_DIR}/freetype/lib/libfreetype.a)
 
 add_subdirectory(include)
 add_subdirectory(src)
