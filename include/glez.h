@@ -77,7 +77,6 @@ void glez_font_string_size(glez_font_t font, const char *string, float *out_x,
 
 /* Texture-related functions */
 
-#define GLEZ_TEXTURE_COUNT 64
 #define GLEZ_TEXTURE_INVALID ((glez_texture_t) 0xFFFFFFFF)
 
 glez_texture_t glez_texture_load_png_rgba(const char *path);

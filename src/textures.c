@@ -19,7 +19,7 @@
 #include <stdlib.h>
 #include <libpng/png.h>
 
-static internal_texture_t loaded_textures[GLEZ_TEXTURE_COUNT];
+static internal_texture_t loaded_textures[64];
 
 void internal_textures_init()
 {
@@ -60,6 +60,7 @@ int internal_texture_load_png_rgba(const char *name, internal_texture_t *out)
     if (setjmp(png_jmpbuf(pngstr)))
     {
         png_destroy_read_struct(&pngstr, &pnginfo, &pngend);
+        fclose(file);
         return -1;
     }
     png_init_io(pngstr, file);
@@ -112,7 +113,7 @@ int internal_texture_load_png_rgba(const char *name, internal_texture_t *out)
 
 internal_texture_t *internal_texture_get(glez_texture_t handle)
 {
-    assert(handle < GLEZ_TEXTURE_COUNT);
+    assert(handle < 64);
     assert(loaded_textures[handle].init);
 
     return &loaded_textures[handle];
@@ -151,7 +152,7 @@ glez_texture_t glez_texture_load_png_rgba(const char *path)
         return GLEZ_TEXTURE_INVALID;
     }
 
-    for (glez_texture_t i = 0; i < GLEZ_TEXTURE_COUNT; ++i)
+    for (glez_texture_t i = 0; i < 64; ++i)
     {
         if (loaded_textures[i].init == 0)
         {

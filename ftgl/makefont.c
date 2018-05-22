@@ -540,6 +540,6 @@ int main(int argc, char **argv)
     fprintf(file, "#ifdef __cplusplus\n"
                   "}\n"
                   "#endif\n");
-
+    fclose(file);
     return 0;
 }
