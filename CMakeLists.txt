@@ -21,7 +21,7 @@ add_library(${PROJECT_NAME} SHARED "")
 
 set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS "-m32")
 
-target_include_directories(${PROJECT_NAME} PRIVATE 
+target_include_directories(${PROJECT_NAME} PRIVATE
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/ftgl>
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/freetype/include/freetype2>
@@ -29,8 +29,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     $<BUILD_INTERFACE:${GLEW_INCLUDE_DIRS}>
 )
 
-target_include_directories(${PROJECT_NAME} PUBLIC 
-    $<INSTALL_INTERFACE:${include_dest}>
+target_include_directories(${PROJECT_NAME} PUBLIC
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE ${PNG_DEFINITIONS})
