@@ -1,30 +1,19 @@
 /*
- * draw.c
- *
- *  Created on: Dec 7, 2017
- *      Author: nullifiedcat
- */
+  Created by Jenny White on 30.04.18.
+  Copyright (c) 2018 nullworks. All rights reserved.
+*/
 
-#include <GL/glew.h>
-#include <GL/gl.h>
+#include <glez/detail/render.hpp>
+#include <glez/detail/font.hpp>
+#include <cstring>
+#include <glez/detail/program.hpp>
 
-#include "glez.h"
+static GLuint current_texture{ 0 };
 
-#include "internal/draw.h"
-#include "internal/program.h"
-
-#include <string.h>
-
-void ds_init()
+namespace glez::detail::render
 {
-    memset(&ds, 0, sizeof(struct draw_state));
-}
 
-void ds_destroy()
-{
-}
-
-void ds_pre_render()
+void begin()
 {
     glPushAttrib(GL_CURRENT_BIT | GL_ENABLE_BIT | GL_TEXTURE_BIT |
                  GL_COLOR_BUFFER_BIT);
@@ -36,6 +25,7 @@ void ds_pre_render()
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_LIGHTING);
     glDisable(GL_STENCIL_TEST);
+    glDisable(GL_POLYGON_SMOOTH);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
@@ -50,25 +40,25 @@ void ds_pre_render()
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_INDEX_ARRAY);
 
-    ds.texture = 0;
-    ds.font    = 0;
+    current_texture = 0;
 }
 
-void ds_post_render()
+void end()
 {
-    program_draw();
-    program_reset();
+    program::draw();
+    program::reset();
     glPopClientAttrib();
     glPopAttrib();
 }
 
-void ds_bind_texture(GLuint texture)
+void bind(GLuint texture)
 {
-    if (ds.texture != texture)
+    if (current_texture != texture)
     {
-        program_draw();
-        program_reset();
-        ds.texture = texture;
+        program::draw();
+        program::reset();
+        current_texture = texture;
         glBindTexture(GL_TEXTURE_2D, texture);
     }
+}
 }

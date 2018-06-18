@@ -2,3 +2,5 @@ bin*
 *.o
 .settings*
 build
+.idea
+cmake-build-debug
