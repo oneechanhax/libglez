@@ -45,19 +45,4 @@ void preInit()
 {
     detail::font::init();
 }
-
-void glez::recordBegin(record::Record& rc)
-{
-    detail::record::currentRecord = rc.commands;
-}
-
-void glez::recordEnd()
-{
-
-}
-
-void glez::recordReplay()
-{
-
-}
 }

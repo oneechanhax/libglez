@@ -7,6 +7,7 @@
 #include <glez/detail/font.hpp>
 #include <cstring>
 #include <glez/detail/program.hpp>
+#include <glez/detail/record.hpp>
 
 static GLuint current_texture{ 0 };
 
@@ -41,12 +42,15 @@ void begin()
     glEnableClientState(GL_INDEX_ARRAY);
 
     current_texture = 0;
+
+    program::begin();
 }
 
 void end()
 {
     program::draw();
     program::reset();
+    program::end();
     glPopClientAttrib();
     glPopAttrib();
 }
@@ -55,8 +59,11 @@ void bind(GLuint texture)
 {
     if (current_texture != texture)
     {
-        program::draw();
-        program::reset();
+        if (!detail::record::isReplaying)
+        {
+            program::draw();
+            program::reset();
+        }
         current_texture = texture;
         glBindTexture(GL_TEXTURE_2D, texture);
     }

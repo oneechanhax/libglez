@@ -18,6 +18,10 @@ public:
     Record();
     ~Record();
 
+    void begin();
+    void end();
+    void replay();
+
     detail::record::RecordedCommands *commands{ nullptr };
 };
 

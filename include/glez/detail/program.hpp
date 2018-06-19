@@ -25,6 +25,9 @@ void resize(int width, int height);
 void draw();
 void reset();
 
+void begin();
+void end();
+
 unsigned next_index();
 
 extern vertex_buffer_t *buffer;

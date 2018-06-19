@@ -15,8 +15,5 @@ void shutdown();
 void resize(int width, int height);
 
 void begin();
-void recordBegin();
-void recordEnd();
-void recordReplay();
 void end();
 };

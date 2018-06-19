@@ -135,9 +135,7 @@ void shutdown()
 
 void draw()
 {
-    glUseProgram(shader);
     vertex_buffer_render(buffer, GL_TRIANGLES);
-    glUseProgram(0);
 }
 
 void reset()
@@ -149,4 +147,15 @@ unsigned next_index()
 {
     return buffer->vertices->size;
 }
+
+void begin()
+{
+    glUseProgram(shader);
+}
+
+void end()
+{
+    glUseProgram(0);
+}
+
 }

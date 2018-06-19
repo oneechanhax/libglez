@@ -8,7 +8,7 @@ set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS ${CMAKE_BUILD_TYPE_VALUES})
 
 cmake_minimum_required(VERSION 3.0)
 
-project(glez LANGUAGES C CXX VERSION 0.0.1)
+project(glez LANGUAGES C CXX VERSION 0.2.0)
 
 set(export_dest "lib/${PROJECT_NAME}-${PROJECT_VERSION}")
 set(include_dest "include/${PROJECT_NAME}-${PROJECT_VERSION}")
@@ -20,8 +20,8 @@ find_package(GLEW REQUIRED)
 
 add_library(${PROJECT_NAME} STATIC "")
 
-target_compile_definitions(glez PRIVATE
-        _GLIBCXX_USE_CXX11_ABI=0)
+#target_compile_definitions(glez PRIVATE
+#        _GLIBCXX_USE_CXX11_ABI=0)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS "-m32")
 
@@ -41,13 +41,13 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE ${PNG_DEFINITIONS})
 
-target_link_libraries(${PROJECT_NAME} ${PNG_LIBRARIES} ${GLEW_LIBRARIES} ${PROJECT_SOURCE_DIR}/freetype/lib/libfreetype.a)
+target_link_libraries(${PROJECT_NAME} ${PNG_LIBRARIES} ${GLEW_LIBRARIES} ${PROJECT_SOURCE_DIR}/freetype/lib/libfreetype.a z GL)
 
 add_subdirectory(src)
 add_subdirectory(include/glez)
 add_subdirectory(ftgl)
 
 install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME} DESTINATION "${lib_dest}")
-install(FILES "include/glez.h" DESTINATION "${include_dest}")
+install(DIRECTORY include/ DESTINATION "${include_dest}")
 install(EXPORT ${PROJECT_NAME} DESTINATION "${lib_dest}")
 install(FILES ${PROJECT_NAME}-config.cmake DESTINATION ${export_dest})

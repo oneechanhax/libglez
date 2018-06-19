@@ -5,28 +5,46 @@
 #include <cstddef>
 #include <glez/detail/record.hpp>
 #include <glez/record.hpp>
+#include <cstring>
 
 namespace glez::detail::record
 {
 
-void RecordedCommands::drawSegment(std::size_t index)
-{
-    glDrawElements(GL_TRIANGLES, segments[index].size, GL_UNSIGNED_INT, (void *)(segments[index].start * sizeof(glez::detail::render::vertex)));
-}
-
 void RecordedCommands::render()
 {
+    isReplaying = true;
     vertex_buffer_render_setup(vertex_buffer, GL_TRIANGLES);
-    vertex_buffer_render_finish(vertex_buffer);
-}
-
-void RecordedCommands::bind(uint32_t texture)
-{
-    if (currentTexture != texture)
+    for (const auto& i: segments)
     {
-        segments.push_back(segment{ nextStart, vertex_buffer->indices->size - nextStart, texture });
-        currentTexture = texture;
+        if (i.texture)
+        {
+            i.texture->bind();
+        }
+        else if (i.font)
+        {
+            if (i.font->atlas->id == 0)
+            {
+                glGenTextures(1, &i.font->atlas->id);
+            }
+
+            glez::detail::render::bind(i.font->atlas->id);
+
+            if (i.font->atlas->dirty)
+            {
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, i.font->atlas->width,
+                             i.font->atlas->height, 0, GL_RED, GL_UNSIGNED_BYTE,
+                             i.font->atlas->data);
+                i.font->atlas->dirty = 0;
+            }
+        }
+        glDrawElements(GL_TRIANGLES, i.size, GL_UNSIGNED_INT, (void *)(i.start * 4));
     }
+    vertex_buffer_render_finish(vertex_buffer);
+    isReplaying = false;
 }
 
 void
@@ -50,9 +68,43 @@ void RecordedCommands::reset()
 {
     vertex_buffer_clear(vertex_buffer);
     segments.clear();
+    memset(&current, 0, sizeof(current));
+}
+
+void RecordedCommands::bindTexture(glez::detail::texture::texture *tx)
+{
+    if (current.texture != tx)
+    {
+        cutSegment();
+        current.texture = tx;
+    }
+}
+
+void RecordedCommands::bindFont(ftgl::texture_font_t *font)
+{
+    if (current.font != font)
+    {
+        cutSegment();
+        current.font = font;
+    }
+}
+
+void RecordedCommands::cutSegment()
+{
+    current.size = vertex_buffer->indices->size - current.start;
+    if (current.size)
+        segments.push_back(current);
+    memset(&current, 0, sizeof(segment));
+    current.start = vertex_buffer->indices->size;
+}
+
+void RecordedCommands::end()
+{
+    cutSegment();
 }
 
 RecordedCommands *currentRecord{ nullptr };
+bool isReplaying{ false };
 
 }
 
@@ -64,4 +116,21 @@ glez::record::Record::Record()
 glez::record::Record::~Record()
 {
     delete commands;
+}
+
+void glez::record::Record::begin()
+{
+    detail::record::currentRecord = commands;
+    commands->reset();
+}
+
+void glez::record::Record::end()
+{
+    commands->end();
+    detail::record::currentRecord = nullptr;
+}
+
+void glez::record::Record::replay()
+{
+    commands->render();
 }
