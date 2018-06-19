@@ -12,7 +12,7 @@
 #include <cassert>
 
 static const char *shader_vertex = R"END(
-#version 150
+#version 130
 uniform mat4 projection;
 in vec2 vertex;
 in vec2 tex_coord;
