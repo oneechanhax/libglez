@@ -15,7 +15,7 @@ class font
 {
 public:
     inline font(std::string path, float size)
-        : path(std::move(path)), size(size)
+        : path(std::move(path)), size(size), loaded(false)
     {
     }
     ~font();
@@ -32,6 +32,7 @@ public:
 
     void load();
     void unload();
+    void stringSize(const std::string &string, float *width, float *height);
 
     const std::string path;
     const float size;

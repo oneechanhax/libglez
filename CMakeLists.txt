@@ -17,7 +17,11 @@ set(lib_dest "${export_dest}/${CMAKE_BUILD_TYPE}")
 find_package(PNG REQUIRED)
 find_package(GLEW REQUIRED)
 
-add_library(${PROJECT_NAME} SHARED "")
+
+add_library(${PROJECT_NAME} STATIC "")
+
+target_compile_definitions(glez PRIVATE
+        _GLIBCXX_USE_CXX11_ABI=0)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS "-m32")
 

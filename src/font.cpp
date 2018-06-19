@@ -28,4 +28,10 @@ void font::unload()
     auto &font = detail::font::get(handle);
     font.unload();
 }
+
+void font::stringSize(const std::string &string, float *width, float *height)
+{
+    auto &font = detail::font::get(handle);
+    font.stringSize(string, width, height);
+}
 }

@@ -8,6 +8,7 @@
 namespace glez
 {
 
+void preInit();
 void init(int width, int height);
 void shutdown();
 

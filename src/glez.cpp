@@ -13,7 +13,6 @@ namespace glez
 
 void init(int width, int height)
 {
-    detail::font::init();
     detail::program::init(width, height);
     detail::texture::init();
 }
@@ -38,5 +37,10 @@ void begin()
 void end()
 {
     detail::render::end();
+}
+
+void preInit()
+{
+    detail::font::init();
 }
 }

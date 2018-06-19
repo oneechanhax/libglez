@@ -38,7 +38,8 @@ void font::load(const std::string &path, float size)
 
 void font::unload()
 {
-    assert(init);
+    if (!init)
+        return;
 
     texture_atlas_delete(atlas);
     texture_font_delete(font);
