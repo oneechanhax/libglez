@@ -7,6 +7,8 @@
 #include <glez/detail/program.hpp>
 #include <glez/detail/render.hpp>
 #include <glez/detail/texture.hpp>
+#include <glez/record.hpp>
+#include <glez/detail/record.hpp>
 
 namespace glez
 {
@@ -42,5 +44,20 @@ void end()
 void preInit()
 {
     detail::font::init();
+}
+
+void glez::recordBegin(record::Record& rc)
+{
+    detail::record::currentRecord = rc.commands;
+}
+
+void glez::recordEnd()
+{
+
+}
+
+void glez::recordReplay()
+{
+
 }
 }

@@ -12,6 +12,7 @@
 #include <cstring>
 #include <glez/detail/texture.hpp>
 #include <cmath>
+#include <glez/detail/record.hpp>
 
 namespace indices
 {
@@ -95,7 +96,10 @@ void internal_draw_string(float x, float y, const std::string &string,
         if (glyph->height > size_y)
             size_y = glyph->height;
 
-        vertex_buffer_push_back(glez::detail::program::buffer, vertices, 4,
+        if (glez::detail::record::currentRecord)
+            glez::detail::record::currentRecord->store(vertices, 4, indices::rectangle, 6);
+        else
+            vertex_buffer_push_back(glez::detail::program::buffer, vertices, 4,
                                 indices::rectangle, 6);
     }
 
@@ -151,7 +155,10 @@ void line(float x, float y, float dx, float dy, rgba color, float thickness)
     vertices[3].position = { ex + nx + px, ey + ny + py };
     vertices[0].position = { ex + nx - px, ey + ny - py };
 
-    ftgl::vertex_buffer_push_back(detail::program::buffer, vertices, 4,
+    if (detail::record::currentRecord)
+        detail::record::currentRecord->store(vertices, 4, indices::rectangle, 6);
+    else
+        ftgl::vertex_buffer_push_back(detail::program::buffer, vertices, 4,
                                   indices::rectangle, 6);
 }
 
@@ -170,7 +177,10 @@ void rect(float x, float y, float w, float h, rgba color)
     vertices[2].position = { x + w, y + h };
     vertices[3].position = { x + w, y };
 
-    ftgl::vertex_buffer_push_back(detail::program::buffer, vertices, 4,
+    if (detail::record::currentRecord)
+        detail::record::currentRecord->store(vertices, 4, indices::rectangle, 6);
+    else
+        ftgl::vertex_buffer_push_back(detail::program::buffer, vertices, 4,
                                   indices::rectangle, 6);
 }
 
@@ -275,7 +285,10 @@ void rect_textured(float x, float y, float w, float h, rgba color, texture &text
     vertices[2].uv = { s1, t1 };
     vertices[3].uv = { s1, t0 };
 
-    ftgl::vertex_buffer_push_back(detail::program::buffer, vertices, 4,
+    if (detail::record::currentRecord)
+        detail::record::currentRecord->store(vertices, 4, indices::rectangle, 6);
+    else
+        ftgl::vertex_buffer_push_back(detail::program::buffer, vertices, 4,
                                   indices::rectangle, 6);
 }
 }
