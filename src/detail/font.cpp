@@ -48,6 +48,8 @@ void font::unload()
 
 void font::stringSize(const std::string &string, float *width, float *height)
 {
+    
+
     float penX = 0;
 
     float size_x = 0;

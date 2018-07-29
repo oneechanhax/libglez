@@ -31,6 +31,8 @@ void font::unload()
 
 void font::stringSize(const std::string &string, float *width, float *height)
 {
+    if (!isLoaded())
+        load();
     auto &font = detail::font::get(handle);
     font.stringSize(string, width, height);
 }
