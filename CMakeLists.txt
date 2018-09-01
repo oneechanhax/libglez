@@ -13,6 +13,8 @@ project(glez LANGUAGES C CXX VERSION 0.2.0)
 set(export_dest "lib/${PROJECT_NAME}-${PROJECT_VERSION}")
 set(include_dest "include/${PROJECT_NAME}-${PROJECT_VERSION}")
 set(lib_dest "${export_dest}/${CMAKE_BUILD_TYPE}")
+set(CMAKE_CXX_FLAGS_DEBUG "-Og -g")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 find_package(PNG REQUIRED)
 find_package(GLEW REQUIRED)
