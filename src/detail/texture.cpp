@@ -48,19 +48,26 @@ void texture::bind()
 
 void texture::load(const std::string &path)
 {
-    png::image<png::rgba_pixel> image(path);
-    width      = image.get_width();
-    height     = image.get_height();
-    init       = true;
-    bound      = false;
-    id         = 0;
-    auto bytes = image.get_width() * image.get_height() * 4;
-    data       = new GLubyte[bytes];
-
-    for (int i = 0; i < image.get_height(); ++i)
+    try
     {
-        memcpy(data + image.get_width() * 4 * i,
-               image.get_pixbuf().get_row(i).data(), image.get_width() * 4);
+        png::image<png::rgba_pixel> image(path);
+        width      = image.get_width();
+        height     = image.get_height();
+        init       = true;
+        bound      = false;
+        id         = 0;
+        auto bytes = image.get_width() * image.get_height() * 4;
+        data       = new GLubyte[bytes];
+
+        for (int i = 0; i < image.get_height(); ++i)
+        {
+            memcpy(data + image.get_width() * 4 * i,
+                   image.get_pixbuf().get_row(i).data(), image.get_width() * 4);
+        }
+    }
+    catch (...)
+    {
+      
     }
 }
 
