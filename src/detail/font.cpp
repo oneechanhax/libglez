@@ -48,8 +48,6 @@ void font::unload()
 
 void font::stringSize(const std::string &string, float *width, float *height)
 {
-    
-
     float penX = 0;
 
     float size_x = 0;
@@ -83,7 +81,7 @@ void font::stringSize(const std::string &string, float *width, float *height)
 
 unsigned create()
 {
-    for (auto i = 0u; i < cache->size(); ++i)
+    for (size_t i = 0; i < cache->size(); ++i)
         if (not(*cache)[i].init)
             return i;
     auto result = cache->size();

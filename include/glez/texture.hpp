@@ -39,6 +39,11 @@ public:
         return loaded;
     }
 
+    inline bool canLoad() const
+    {
+        return canload;
+    }
+
     void load();
     void unload();
 
@@ -48,6 +53,7 @@ protected:
     int width{ 0 };
     int height{ 0 };
     bool loaded{ false };
+    bool canload{ true };
 
     unsigned handle{ std::numeric_limits<unsigned>::max() };
 };

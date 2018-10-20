@@ -143,11 +143,6 @@ void reset()
     ftgl::vertex_buffer_clear(buffer);
 }
 
-unsigned next_index()
-{
-    return buffer->vertices->size;
-}
-
 void begin()
 {
     glUseProgram(shader);

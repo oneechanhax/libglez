@@ -25,13 +25,15 @@ void font::load()
 
 void font::unload()
 {
+    if (!loaded)
+        return;
     auto &font = detail::font::get(handle);
     font.unload();
 }
 
 void font::stringSize(const std::string &string, float *width, float *height)
 {
-    if (!isLoaded())
+    if (!loaded)
         load();
     auto &font = detail::font::get(handle);
     font.stringSize(string, width, height);

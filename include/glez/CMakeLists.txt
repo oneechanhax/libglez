@@ -7,3 +7,4 @@ target_sources(glez PRIVATE
         "${CMAKE_CURRENT_LIST_DIR}/record.hpp")
 
 add_subdirectory(detail)
+add_subdirectory(picopng)

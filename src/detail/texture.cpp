@@ -7,8 +7,10 @@
 #include <glez/detail/render.hpp>
 #include <cassert>
 #include <vector>
-#include <png.hpp>
+#include <glez/picopng/picopng.hpp>
 #include <memory>
+
+#include <fstream> // required to load the file
 
 static std::unique_ptr<std::vector<glez::detail::texture::texture>> cache{
     nullptr
@@ -29,13 +31,13 @@ void shutdown()
 
 void texture::bind()
 {
-    if (not bound)
+    if (!bound)
     {
         glGenTextures(1, &id);
         glBindTexture(GL_TEXTURE_2D, id);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB8_ALPHA8, width, height, 0, GL_RGBA,
-                     GL_UNSIGNED_BYTE, data);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB8_ALPHA8, width, height, 0,
+                     GL_RGBA, GL_UNSIGNED_BYTE, data);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -46,29 +48,35 @@ void texture::bind()
     render::bind(id);
 }
 
-void texture::load(const std::string &path)
+bool texture::load(const std::string &path)
 {
-    try
-    {
-        png::image<png::rgba_pixel> image(path);
-        width      = image.get_width();
-        height     = image.get_height();
-        init       = true;
-        bound      = false;
-        id         = 0;
-        auto bytes = image.get_width() * image.get_height() * 4;
-        data       = new GLubyte[bytes];
+    std::ifstream file(path.c_str(),
+                       std::ios::in | std::ios::binary | std::ios::ate);
 
-        for (int i = 0; i < image.get_height(); ++i)
-        {
-            memcpy(data + image.get_width() * 4 * i,
-                   image.get_pixbuf().get_row(i).data(), image.get_width() * 4);
-        }
-    }
-    catch (...)
+    std::streamsize size = 0;
+    if (file.seekg(0, std::ios::end).good())
+        size = file.tellg();
+    if (file.seekg(0, std::ios::beg).good())
+        size -= file.tellg();
+
+    if (size < 1)
+        return false;
+
+    unsigned char *buffer = new unsigned char[(size_t) size + 1];
+    file.read((char *) buffer, size);
+    file.close();
+    int error = decodePNG(data, width, height, buffer, size);
+
+    // if there's an error, display it and return false to indicate failure
+    if (error != 0)
     {
-      
+        printf("Error loading texture, error code %i\n", error);
+        return false;
     }
+    init   = true;
+    bound  = false;
+    id     = 0;
+    return true;
 }
 
 void texture::unload()
@@ -94,4 +102,4 @@ unsigned create()
     cache->push_back(texture{});
     return result;
 }
-}
+} // namespace glez::detail::texture

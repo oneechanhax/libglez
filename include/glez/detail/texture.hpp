@@ -15,7 +15,7 @@ namespace glez::detail::texture
 struct texture
 {
     void bind();
-    void load(const std::string &path);
+    bool load(const std::string &path);
     void unload();
 
     bool init{ false };

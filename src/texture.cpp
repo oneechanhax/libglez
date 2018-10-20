@@ -17,11 +17,15 @@ texture::~texture()
 
 void texture::load()
 {
+    if (loaded)
+        return;
     handle        = detail::texture::create();
     auto &texture = detail::texture::get(handle);
-    texture.load(path);
-    width  = texture.width;
-    height = texture.height;
+    if (canload = texture.load(path))
+    {
+        width  = texture.width;
+        height = texture.height;
+    }
     loaded = true;
 }
 
@@ -29,5 +33,6 @@ void texture::unload()
 {
     auto &texture = detail::texture::get(handle);
     texture.unload();
+    loaded = false;
 }
-}
+} // namespace glez

@@ -254,6 +254,9 @@ void rect_textured(float x, float y, float w, float h, rgba color, texture &text
 {
     if (!texture.isLoaded())
         texture.load();
+    
+    if (!texture.canLoad())
+        return;
 
     auto &tex = detail::texture::get(texture.getHandle());
     if (glez::detail::record::currentRecord)
