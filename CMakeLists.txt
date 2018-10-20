@@ -16,7 +16,6 @@ set(lib_dest "${export_dest}/${CMAKE_BUILD_TYPE}")
 set(CMAKE_CXX_FLAGS_DEBUG "-Og -g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
-find_package(PNG REQUIRED)
 find_package(GLEW REQUIRED)
 
 
@@ -31,7 +30,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/ftgl>
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/freetype/include/freetype2>
-    $<BUILD_INTERFACE:${PNG_INCLUDE_DIR}>
     $<BUILD_INTERFACE:${GLEW_INCLUDE_DIRS}>
 )
 
@@ -40,9 +38,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<INSTALL_INTERFACE:${include_dest}>
 )
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE ${PNG_DEFINITIONS})
-
-target_link_libraries(${PROJECT_NAME} ${PNG_LIBRARIES} ${GLEW_LIBRARIES} ${PROJECT_SOURCE_DIR}/freetype/lib/libfreetype.a z GL)
+target_link_libraries(${PROJECT_NAME} ${GLEW_LIBRARIES} ${PROJECT_SOURCE_DIR}/freetype/lib/libfreetype.a z GL)
 
 add_subdirectory(src)
 add_subdirectory(include/glez)
