@@ -40,9 +40,9 @@ void font::unload()
 {
     if (!init)
         return;
-
     texture_atlas_delete(atlas);
-    texture_font_delete(font);
+    if (font)
+        texture_font_delete(font);
     init = false;
 }
 
