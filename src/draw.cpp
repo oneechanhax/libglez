@@ -149,7 +149,7 @@ void line(float x, float y, float dx, float dy, rgba color, float thickness)
     float ex = x + dx;
     float ey = y + dy;
 
-    if (!length <= 0.1f)
+    if (length <= 1.0f)
         return;
 
     nx /= length;
