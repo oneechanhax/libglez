@@ -38,4 +38,4 @@ void font::stringSize(const std::string &string, float *width, float *height)
     auto &font = detail::font::get(handle);
     font.stringSize(string, width, height);
 }
-}
+} // namespace glez

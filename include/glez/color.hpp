@@ -35,5 +35,5 @@ constexpr rgba black(0, 0, 0);
 constexpr rgba red(255, 0, 0);
 constexpr rgba green(0, 255, 0);
 constexpr rgba blue(0, 0, 255);
-}
-}
+} // namespace color
+} // namespace glez

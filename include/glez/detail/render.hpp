@@ -23,4 +23,4 @@ void begin();
 void end();
 
 void bind(GLuint texture);
-}
+} // namespace glez::detail::render

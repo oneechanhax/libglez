@@ -93,4 +93,4 @@ font &get(unsigned handle)
 {
     return (*cache)[handle];
 }
-}
+} // namespace glez::detail::font

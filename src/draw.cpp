@@ -110,10 +110,11 @@ void internal_draw_string(float x, float y, const std::string &string,
             size_y = glyph->height;
 
         if (glez::detail::record::currentRecord)
-            glez::detail::record::currentRecord->store(vertices, 4, indices::rectangle, 6);
+            glez::detail::record::currentRecord->store(vertices, 4,
+                                                       indices::rectangle, 6);
         else
             vertex_buffer_push_back(glez::detail::program::buffer, vertices, 4,
-                                indices::rectangle, 6);
+                                    indices::rectangle, 6);
     }
 
     if (width)
@@ -169,10 +170,11 @@ void line(float x, float y, float dx, float dy, rgba color, float thickness)
     vertices[0].position = { ex + nx - px, ey + ny - py };
 
     if (detail::record::currentRecord)
-        detail::record::currentRecord->store(vertices, 4, indices::rectangle, 6);
+        detail::record::currentRecord->store(vertices, 4, indices::rectangle,
+                                             6);
     else
         ftgl::vertex_buffer_push_back(detail::program::buffer, vertices, 4,
-                                  indices::rectangle, 6);
+                                      indices::rectangle, 6);
 }
 
 void rect(float x, float y, float w, float h, rgba color)
@@ -191,13 +193,15 @@ void rect(float x, float y, float w, float h, rgba color)
     vertices[3].position = { x + w, y };
 
     if (detail::record::currentRecord)
-        detail::record::currentRecord->store(vertices, 4, indices::rectangle, 6);
+        detail::record::currentRecord->store(vertices, 4, indices::rectangle,
+                                             6);
     else
         ftgl::vertex_buffer_push_back(detail::program::buffer, vertices, 4,
-                                  indices::rectangle, 6);
+                                      indices::rectangle, 6);
 }
 
-void rect_outline(float x, float y, float w, float h, rgba color, float thickness)
+void rect_outline(float x, float y, float w, float h, rgba color,
+                  float thickness)
 {
     rect(x, y, w, 1, color);
     rect(x, y, 1, h, color);
@@ -205,7 +209,8 @@ void rect_outline(float x, float y, float w, float h, rgba color, float thicknes
     rect(x, y + h - 1, w, 1, color);
 }
 
-void circle(float x, float y, float radius, rgba color, float thickness, int steps)
+void circle(float x, float y, float radius, rgba color, float thickness,
+            int steps)
 {
     float px = 0;
     float py = 0;
@@ -249,12 +254,13 @@ void outlined_string(float x, float y, const std::string &string, font &font,
     internal_draw_string(x, y, string, fnt, color, width, height);
 }
 
-void rect_textured(float x, float y, float w, float h, rgba color, texture &texture,
-                   float tx, float ty, float tw, float th, float angle)
+void rect_textured(float x, float y, float w, float h, rgba color,
+                   texture &texture, float tx, float ty, float tw, float th,
+                   float angle)
 {
     if (!texture.isLoaded())
         texture.load();
-    
+
     if (!texture.canLoad())
         return;
 
@@ -305,9 +311,10 @@ void rect_textured(float x, float y, float w, float h, rgba color, texture &text
     vertices[3].uv = { s1, t0 };
 
     if (detail::record::currentRecord)
-        detail::record::currentRecord->store(vertices, 4, indices::rectangle, 6);
+        detail::record::currentRecord->store(vertices, 4, indices::rectangle,
+                                             6);
     else
         ftgl::vertex_buffer_push_back(detail::program::buffer, vertices, 4,
-                                  indices::rectangle, 6);
+                                      indices::rectangle, 6);
 }
-}
+} // namespace glez::draw

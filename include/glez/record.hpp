@@ -25,4 +25,4 @@ public:
     detail::record::RecordedCommands *commands{ nullptr };
 };
 
-}
+} // namespace glez::record

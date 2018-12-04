@@ -45,4 +45,4 @@ void preInit()
     detail::font::init();
     detail::texture::init();
 }
-}
+} // namespace glez

@@ -57,4 +57,4 @@ protected:
 
     unsigned handle{ std::numeric_limits<unsigned>::max() };
 };
-}
+} // namespace glez

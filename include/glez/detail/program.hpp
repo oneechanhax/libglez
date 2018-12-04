@@ -29,4 +29,4 @@ void begin();
 void end();
 
 extern vertex_buffer_t *buffer;
-};
+}; // namespace glez::detail::program

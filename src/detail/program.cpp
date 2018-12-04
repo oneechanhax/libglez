@@ -153,4 +153,4 @@ void end()
     glUseProgram(0);
 }
 
-}
+} // namespace glez::detail::program

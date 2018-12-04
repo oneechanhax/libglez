@@ -29,4 +29,4 @@ void shutdown();
 
 unsigned create();
 font &get(unsigned handle);
-}
+} // namespace glez::detail::font

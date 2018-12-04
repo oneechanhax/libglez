@@ -14,7 +14,7 @@ void RecordedCommands::render()
 {
     isReplaying = true;
     vertex_buffer_render_setup(vertex_buffer, GL_TRIANGLES);
-    for (const auto& i: segments)
+    for (const auto &i : segments)
     {
         if (i.texture)
         {
@@ -31,32 +31,37 @@ void RecordedCommands::render()
 
             if (i.font->atlas->dirty)
             {
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
+                                GL_CLAMP_TO_EDGE);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
+                                GL_CLAMP_TO_EDGE);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+                                GL_NEAREST);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+                                GL_NEAREST);
                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, i.font->atlas->width,
                              i.font->atlas->height, 0, GL_RED, GL_UNSIGNED_BYTE,
                              i.font->atlas->data);
                 i.font->atlas->dirty = 0;
             }
         }
-        glDrawElements(GL_TRIANGLES, i.size, GL_UNSIGNED_INT, (void *)(i.start * 4));
+        glDrawElements(GL_TRIANGLES, i.size, GL_UNSIGNED_INT,
+                       (void *) (i.start * 4));
     }
     vertex_buffer_render_finish(vertex_buffer);
     isReplaying = false;
 }
 
-void
-RecordedCommands::store(glez::detail::render::vertex *vertices, size_t vcount,
-                        uint32_t *indices, size_t icount)
+void RecordedCommands::store(glez::detail::render::vertex *vertices,
+                             size_t vcount, uint32_t *indices, size_t icount)
 {
     vertex_buffer_push_back(vertex_buffer, vertices, vcount, indices, icount);
 }
 
 RecordedCommands::RecordedCommands()
 {
-    vertex_buffer = vertex_buffer_new("vertex:2f,tex_coord:2f,color:4f,drawmode:1i");
+    vertex_buffer =
+        vertex_buffer_new("vertex:2f,tex_coord:2f,color:4f,drawmode:1i");
 }
 
 RecordedCommands::~RecordedCommands()
@@ -106,7 +111,7 @@ void RecordedCommands::end()
 RecordedCommands *currentRecord{ nullptr };
 bool isReplaying{ false };
 
-}
+} // namespace glez::detail::record
 
 glez::record::Record::Record()
 {

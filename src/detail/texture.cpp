@@ -73,9 +73,9 @@ bool texture::load(const std::string &path)
         printf("Error loading texture, error code %i\n", error);
         return false;
     }
-    init   = true;
-    bound  = false;
-    id     = 0;
+    init  = true;
+    bound = false;
+    id    = 0;
     return true;
 }
 

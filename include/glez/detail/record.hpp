@@ -32,11 +32,13 @@ public:
     ~RecordedCommands();
 
     void reset();
-    void store(glez::detail::render::vertex *vertices, size_t vcount, uint32_t *indices, size_t icount);
+    void store(glez::detail::render::vertex *vertices, size_t vcount,
+               uint32_t *indices, size_t icount);
     void bindTexture(glez::detail::texture::texture *tx);
     void bindFont(ftgl::texture_font_t *font);
     void render();
     void end();
+
 protected:
     void cutSegment();
 
@@ -48,4 +50,4 @@ protected:
 extern RecordedCommands *currentRecord;
 extern bool isReplaying;
 
-}
+} // namespace glez::detail::record

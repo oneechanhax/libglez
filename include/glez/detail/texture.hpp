@@ -33,4 +33,4 @@ void shutdown();
 
 unsigned create();
 texture &get(unsigned handle);
-}
+} // namespace glez::detail::texture
