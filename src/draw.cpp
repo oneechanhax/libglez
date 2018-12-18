@@ -233,7 +233,7 @@ void string(float x, float y, const std::string &string, font &font, rgba color,
     if (!font.isLoaded())
         font.load();
 
-    auto fnt               = glez::detail::font::get(font.getHandle()).font;
+    auto fnt               = glez::detail::font::get(font.getHandle()).m_font;
     fnt->rendermode        = RENDER_NORMAL;
     fnt->outline_thickness = 0.0f;
     internal_draw_string(x, y, string, fnt, color, width, height);
@@ -245,7 +245,7 @@ void outlined_string(float x, float y, const std::string &string, font &font,
     if (!font.isLoaded())
         font.load();
 
-    auto fnt               = glez::detail::font::get(font.getHandle()).font;
+    auto fnt               = glez::detail::font::get(font.getHandle()).m_font;
     fnt->rendermode        = RENDER_OUTLINE_POSITIVE;
     fnt->outline_thickness = 1.0f;
     internal_draw_string(x, y, string, fnt, outline, width, height);

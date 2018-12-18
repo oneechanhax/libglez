@@ -8,59 +8,60 @@
 #include <memory>
 #include <cassert>
 
-static std::unique_ptr<std::vector<glez::detail::font::font>> cache{ nullptr };
-
 namespace glez::detail::font
 {
 
+std::vector<glez::detail::font::ifont> *cache = nullptr;
+
 void init()
 {
-    cache = std::make_unique<std::vector<font>>();
+    cache = new std::vector<glez::detail::font::ifont>;
 }
 
 void shutdown()
 {
-    cache.reset(nullptr);
+    delete cache;
 }
 
-void font::load(const std::string &path, float size)
+void ifont::load(const std::string &path, float size)
 {
     assert(size > 0);
 
     atlas = texture_atlas_new(1024, 1024, 1);
     assert(atlas != nullptr);
 
-    font = texture_font_new_from_file(atlas, size, path.c_str());
-    assert(font != nullptr);
+    m_font = texture_font_new_from_file(atlas, size, path.c_str());
+    assert(m_font != nullptr);
 
     init = true;
 }
 
-void font::unload()
+void ifont::unload()
 {
     if (!init)
         return;
-    texture_atlas_delete(atlas);
-    if (font)
-        texture_font_delete(font);
+    if (atlas)
+        texture_atlas_delete(atlas);
+    if (m_font)
+        texture_font_delete(m_font);
     init = false;
 }
 
-void font::stringSize(const std::string &string, float *width, float *height)
+void ifont::stringSize(const std::string &string, float *width, float *height)
 {
     float penX = 0;
 
     float size_x = 0;
     float size_y = 0;
 
-    texture_font_load_glyphs(font, string.c_str());
+    texture_font_load_glyphs(m_font, string.c_str());
 
     const char *sstring = string.c_str();
 
     for (size_t i = 0; i < string.size(); ++i)
     {
         // c_str guarantees a NULL terminator
-        texture_glyph_t *glyph = texture_font_find_glyph(font, &sstring[i]);
+        texture_glyph_t *glyph = texture_font_find_glyph(m_font, &sstring[i]);
         if (glyph == nullptr)
             continue;
 
@@ -85,12 +86,12 @@ unsigned create()
         if (not(*cache)[i].init)
             return i;
     auto result = cache->size();
-    cache->push_back(font{});
+    cache->push_back(ifont{});
     return result;
 }
 
-font &get(unsigned handle)
+ifont &get(unsigned handle)
 {
-    return (*cache)[handle];
+    return cache->at(handle);
 }
 } // namespace glez::detail::font

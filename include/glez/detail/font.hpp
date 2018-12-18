@@ -12,7 +12,7 @@
 namespace glez::detail::font
 {
 
-struct font
+struct ifont
 {
     void load(const std::string &path, float size);
     void unload();
@@ -20,7 +20,7 @@ struct font
 
     bool init{ false };
 
-    texture_font_t *font{ nullptr };
+    texture_font_t *m_font{ nullptr };
     texture_atlas_t *atlas{ nullptr };
 };
 
@@ -28,5 +28,5 @@ void init();
 void shutdown();
 
 unsigned create();
-font &get(unsigned handle);
+ifont &get(unsigned handle);
 } // namespace glez::detail::font

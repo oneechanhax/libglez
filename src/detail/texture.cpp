@@ -12,21 +12,19 @@
 
 #include <fstream> // required to load the file
 
-static std::unique_ptr<std::vector<glez::detail::texture::texture>> cache{
-    nullptr
-};
+static std::vector<glez::detail::texture::texture> *cache{ nullptr };
 
 namespace glez::detail::texture
 {
 
 void init()
 {
-    cache = std::make_unique<std::vector<texture>>();
+    cache = new std::vector<glez::detail::texture::texture>();
 }
 
 void shutdown()
 {
-    cache.reset(nullptr);
+    delete cache;
 }
 
 void texture::bind()
