@@ -16,7 +16,11 @@ set(lib_dest "${export_dest}/${CMAKE_BUILD_TYPE}")
 set(CMAKE_CXX_FLAGS_DEBUG "-O3 -g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
+find_package(SDL2 REQUIRED)
 find_package(GLEW REQUIRED)
+find_package(Freetype REQUIRED)
+set(OpenGL_GL_PREFERENCE "GLVND")
+find_package(OpenGL REQUIRED)
 
 
 add_library(${PROJECT_NAME} STATIC "")
@@ -24,7 +28,8 @@ add_library(${PROJECT_NAME} STATIC "")
 target_compile_definitions(glez PRIVATE
         _GLIBCXX_USE_CXX11_ABI=0)
 
-set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS "-m32")
+set(CMAKE_CXX_FLAGS "-m32")
+set(CMAKE_C_FLAGS "-m32")
 
 target_include_directories(${PROJECT_NAME} PRIVATE 
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
@@ -38,7 +43,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<INSTALL_INTERFACE:${include_dest}>
 )
 
-target_link_libraries(${PROJECT_NAME} ${GLEW_LIBRARIES} ${PROJECT_SOURCE_DIR}/freetype/lib/libfreetype.a z GL)
+target_link_libraries(${PROJECT_NAME} ${GLEW_LIBRARIES} ${FREETYPE_LIBRARIES} z GL)
 
 add_subdirectory(src)
 add_subdirectory(include/glez)
