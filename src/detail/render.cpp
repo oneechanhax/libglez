@@ -28,6 +28,7 @@ void begin()
     glDisable(GL_STENCIL_TEST);
     glDisable(GL_POLYGON_SMOOTH);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE);
 
     glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
 
