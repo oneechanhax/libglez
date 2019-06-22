@@ -18,7 +18,8 @@ namespace indices
 {
 
 static GLuint rectangle[6] = { 0, 1, 2, 2, 3, 0 };
-}
+static GLuint triangle[3]  = { 0, 1, 2 };
+} // namespace indices
 
 void internal_draw_string(float x, float y, const std::string &string,
                           texture_font_t *fnt, glez::rgba color, float *width,
@@ -198,6 +199,28 @@ void rect(float x, float y, float w, float h, rgba color)
     else
         ftgl::vertex_buffer_push_back(detail::program::buffer, vertices, 4,
                                       indices::rectangle, 6);
+}
+
+void triangle(float x, float y, float x2, float y2, float x3, float y3, rgba color)
+{
+    detail::render::vertex vertices[3];
+
+    for (auto &vertex : vertices)
+    {
+        vertex.mode  = static_cast<int>(detail::program::mode::PLAIN);
+        vertex.color = color;
+    }
+
+    vertices[0].position = { x, y };
+    vertices[1].position = { x2, y2 };
+    vertices[2].position = { x3, y3 };
+
+    if (detail::record::currentRecord)
+        detail::record::currentRecord->store(vertices, 3, indices::rectangle,
+                                             3);
+    else
+        ftgl::vertex_buffer_push_back(detail::program::buffer, vertices, 3,
+                                      indices::rectangle, 3);
 }
 
 void rect_outline(float x, float y, float w, float h, rgba color,
