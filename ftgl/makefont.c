@@ -3,6 +3,8 @@
  * Distributed under the OSI-approved BSD 2-Clause License.  See accompanying
  * file `LICENSE` for more details.
  */
+#pragma GCC diagnostic ignored "-Wformat"
+
 #include "opengl.h"
 #include "vec234.h"
 #include "vector.h"
@@ -540,6 +542,6 @@ int main(int argc, char **argv)
     fprintf(file, "#ifdef __cplusplus\n"
                   "}\n"
                   "#endif\n");
-
+    fclose(file);
     return 0;
 }

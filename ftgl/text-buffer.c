@@ -93,6 +93,7 @@ void text_buffer_printf(text_buffer_t *self, vec2 *pen, ...)
         markup = va_arg(args, markup_t *);
         if (markup == NULL)
         {
+        	va_end(args);
             return;
         }
         text = va_arg(args, char *);

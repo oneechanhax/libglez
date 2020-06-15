@@ -47,22 +47,23 @@ font_manager_t *font_manager_new(size_t width, size_t height, size_t depth)
 // ---------------------------------------------------- font_manager_delete ---
 void font_manager_delete(font_manager_t *self)
 {
-    size_t i;
-    texture_font_t *font;
-    assert(self);
-
-    for (i = 0; i < vector_size(self->fonts); ++i)
+    if (self)
     {
-        font = *(texture_font_t **) vector_get(self->fonts, i);
-        texture_font_delete(font);
+        size_t i;
+        texture_font_t *font;
+        for (i = 0; i < vector_size(self->fonts); ++i)
+        {
+            font = *(texture_font_t **) vector_get(self->fonts, i);
+            texture_font_delete(font);
+        }
+        vector_delete(self->fonts);
+        texture_atlas_delete(self->atlas);
+        if (self->cache)
+        {
+            free(self->cache);
+        }
+        free(self);
     }
-    vector_delete(self->fonts);
-    texture_atlas_delete(self->atlas);
-    if (self->cache)
-    {
-        free(self->cache);
-    }
-    free(self);
 }
 
 // ----------------------------------------------- font_manager_delete_font ---
