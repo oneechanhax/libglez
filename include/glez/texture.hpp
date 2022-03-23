@@ -5,56 +5,35 @@
 
 #pragma once
 
+#include <freetype-gl.h>
 #include <string>
 #include <limits>
+#include <cstddef>
 
 namespace glez
 {
 
-class texture
-{
+class texture {
 public:
-    inline explicit texture(std::string path) : path(std::move(path))
-    {
-    }
+    texture(){}
+    static texture loadFromFile(const std::string &path);
+    static texture loadFromMemory(const std::byte* mem, std::size_t size, unsigned w, unsigned h);
+    texture(texture&&);
     ~texture();
 
-    inline int getWidth() const
-    {
-        return width;
-    }
+    texture& operator=(texture&&);
 
-    inline int getHeight() const
-    {
-        return height;
-    }
+    void bind();
 
-    inline unsigned getHandle() const
-    {
-        return handle;
-    }
+    inline bool isLoaded() { return this->init; }
+public:
+    bool init = false;
+    bool bound = false;
+    int width = 0;
+    int height = 0;
 
-    inline bool isLoaded() const
-    {
-        return loaded;
-    }
-
-    inline bool canLoad() const
-    {
-        return canload;
-    }
-
-    void load();
-    void unload();
-
-    const std::string path;
-
-protected:
-    int width{ 0 };
-    int height{ 0 };
-    bool loaded{ false };
-    bool canload{ true };
-
-    unsigned handle{ std::numeric_limits<unsigned>::max() };
+    GLuint id;
+    GLubyte *data;
 };
-} // namespace glez
+
+} // namespace glez::texture

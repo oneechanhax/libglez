@@ -1,5 +1,5 @@
 #include <vector>
-
+#include <stddef.h>
 /*
 decodePNG: The picoPNG function, decodes a PNG file buffer in memory, into a raw pixel buffer.
 out_image: output parameter, this will contain the raw pixels after decoding.
@@ -40,14 +40,14 @@ int decodePNG(unsigned char* &out_image, int& image_width, int& image_height, co
   //     2. Altered source versions must be plainly marked as such, and must not be
   //     misrepresented as being the original software.
   //     3. This notice may not be removed or altered from any source distribution.
-  
+
   // picoPNG is a PNG decoder in one C++ function of around 500 lines. Use picoPNG for
   // programs that need only 1 .cpp file. Since it's a single function, it's very limited,
   // it can convert a PNG to raw pixel data either converted to 32-bit RGBA color or
   // with no color conversion at all. For anything more complex, another tiny library
   // is available: LodePNG (lodepng.c(pp)), which is a single source and header file.
   // Apologies for the compact code style, it's to make this tiny.
-  
+
   static const unsigned long LENBASE[29] =  {3,4,5,6,7,8,9,10,11,13,15,17,19,23,27,31,35,43,51,59,67,83,99,115,131,163,195,227,258};
   static const unsigned long LENEXTRA[29] = {0,0,0,0,0,0,0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4,  4,  5,  5,  5,  5,  0};
   static const unsigned long DISTBASE[30] =  {1,2,3,4,5,7,9,13,17,25,33,49,65,97,129,193,257,385,513,769,1025,1537,2049,3073,4097,6145,8193,12289,16385,24577};
@@ -189,7 +189,7 @@ int decodePNG(unsigned char* &out_image, int& image_width, int& image_height, co
         error = tree.makeFromLengths(bitlen, 15); if(error) return; //now we've finally got HLIT and HDIST, so generate the code trees, and the function is done
         error = treeD.makeFromLengths(bitlenD, 15); if(error) return;
       }
-      void inflateHuffmanBlock(std::vector<unsigned char>& out, const unsigned char* in, size_t& bp, size_t& pos, size_t inlength, unsigned long btype) 
+      void inflateHuffmanBlock(std::vector<unsigned char>& out, const unsigned char* in, size_t& bp, size_t& pos, size_t inlength, unsigned long btype)
       {
         if(btype == 1) { generateFixedTrees(codetree, codetreeD); }
         else if(btype == 2) { getTreeInflateDynamic(codetree, codetreeD, in, bp, inlength); if(error) return; }

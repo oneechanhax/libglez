@@ -5,41 +5,27 @@
 
 #pragma once
 
-#include <string>
+#include <freetype-gl.h>
 #include <limits>
+#include <string>
 
-namespace glez
-{
+namespace glez {
 
-class font
-{
+class font {
 public:
-    inline font(std::string path, float size)
-        : path(std::move(path)), size(size), loaded(false)
-    {
-    }
+    font(){}
+    static font loadFromFile(const std::string &path, float size);
+    font(font&&);
     ~font();
 
-    inline unsigned getHandle() const
-    {
-        return handle;
-    }
+    glez::font& operator=(glez::font&&);
 
-    inline bool isLoaded() const
-    {
-        return loaded;
-    }
-
-    void load();
-    void unload();
-    void stringSize(const std::string &string, float *width, float *height);
-
-    const std::string path;
-    const float size;
-
-protected:
-    bool loaded{ false };
-
-    unsigned handle{ std::numeric_limits<unsigned>::max() };
+    //void stringSize(std::string_view string, float* width, float* height);
+    void stringSize(const std::string& string, float* width, float* height);
+    inline bool isLoaded() { return  this->m_font != nullptr && this->atlas != nullptr;  };
+public:
+    texture_font_t* m_font = nullptr;
+    texture_atlas_t* atlas = nullptr;
 };
-} // namespace glez
+
+} // namespace glez::detail::font
