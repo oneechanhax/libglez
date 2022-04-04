@@ -7,7 +7,6 @@
 #include <cmath>
 #include <cstring>
 #include <glez/detail/record.hpp>
-#include <glez/detail/render.hpp>
 #include <glez/draw.hpp>
 #include <glez/font.hpp>
 #include <glez/glez.hpp>
