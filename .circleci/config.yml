@@ -10,7 +10,7 @@ jobs:
       - checkout
       - run:
           name: "Install development packages"
-          command: "apt update && apt install -y build-essential cmake libz-dev libpng-dev libglew-dev libgl-dev libx11-dev libxext-dev libxfixes-dev libfreetype-dev"
+          command: "apt update && apt install -y build-essential cmake libz-dev libpng-dev libglew-dev libgl-dev libx11-dev libxext-dev libxfixes-dev libfreetype-dev libsdl2-dev"
       - run:
           name: "Make build directory"
           command: "mkdir build"
