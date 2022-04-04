@@ -3,23 +3,20 @@
 */
 
 #include <cstddef>
-#include <glez/detail/record.hpp>
-#include <glez/record.hpp>
-#include <glez/glez.hpp>
 #include <cstring>
+#include <glez/detail/record.hpp>
+#include <glez/glez.hpp>
+#include <glez/record.hpp>
 
-namespace glez::detail::record
-{
+namespace glez::detail::record {
 
-void RecordedCommands::render()
-{
+void RecordedCommands::render() {
     isReplaying = true;
     vertex_buffer_render_setup(vertex_buffer, GL_TRIANGLES);
-    for (const auto &i : segments) {
+    for (const auto& i : segments) {
         if (i.texture) {
             i.texture->bind();
-        }
-        else if (i.font) {
+        } else if (i.font) {
             if (i.font->atlas->id == 0) {
                 glGenTextures(1, &i.font->atlas->id);
             }
@@ -32,18 +29,18 @@ void RecordedCommands::render()
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, i.font->atlas->width,
-                             i.font->atlas->height, 0, GL_RED, GL_UNSIGNED_BYTE,
-                             i.font->atlas->data);
+                    i.font->atlas->height, 0, GL_RED, GL_UNSIGNED_BYTE,
+                    i.font->atlas->data);
                 i.font->atlas->dirty = 0;
             }
         }
-        glDrawElements(GL_TRIANGLES, i.size, GL_UNSIGNED_INT, (void *) (i.start * 4));
+        glDrawElements(GL_TRIANGLES, i.size, GL_UNSIGNED_INT, (void*)(i.start * 4));
     }
     vertex_buffer_render_finish(vertex_buffer);
     isReplaying = false;
 }
 
-void RecordedCommands::store(glez::vertex *vertices, size_t vcount, uint32_t *indices, size_t icount) {
+void RecordedCommands::store(glez::vertex* vertices, size_t vcount, uint32_t* indices, size_t icount) {
     vertex_buffer_push_back(vertex_buffer, vertices, vcount, indices, icount);
 }
 
@@ -61,24 +58,21 @@ void RecordedCommands::reset() {
     memset(&current, 0, sizeof(current));
 }
 
-void RecordedCommands::bindTexture(glez::texture *tx) {
+void RecordedCommands::bindTexture(glez::texture* tx) {
     if (current.texture != tx) {
         cutSegment();
         current.texture = tx;
     }
 }
 
-void RecordedCommands::bindFont(glez::font *font)
-{
-    if (current.font != font)
-    {
+void RecordedCommands::bindFont(glez::font* font) {
+    if (current.font != font) {
         cutSegment();
         current.font = font;
     }
 }
 
-void RecordedCommands::cutSegment()
-{
+void RecordedCommands::cutSegment() {
     current.size = vertex_buffer->indices->size - current.start;
     if (current.size)
         segments.push_back(current);
@@ -86,39 +80,33 @@ void RecordedCommands::cutSegment()
     current.start = vertex_buffer->indices->size;
 }
 
-void RecordedCommands::end()
-{
+void RecordedCommands::end() {
     cutSegment();
 }
 
-RecordedCommands *currentRecord{ nullptr };
-bool isReplaying{ false };
+RecordedCommands* currentRecord { nullptr };
+bool isReplaying { false };
 
 } // namespace glez::detail::record
 
-glez::record::Record::Record()
-{
-    commands = new glez::detail::record::RecordedCommands{};
+glez::record::Record::Record() {
+    commands = new glez::detail::record::RecordedCommands {};
 }
 
-glez::record::Record::~Record()
-{
+glez::record::Record::~Record() {
     delete commands;
 }
 
-void glez::record::Record::begin()
-{
+void glez::record::Record::begin() {
     detail::record::currentRecord = commands;
     commands->reset();
 }
 
-void glez::record::Record::end()
-{
+void glez::record::Record::end() {
     commands->end();
     detail::record::currentRecord = nullptr;
 }
 
-void glez::record::Record::replay()
-{
+void glez::record::Record::replay() {
     commands->render();
 }

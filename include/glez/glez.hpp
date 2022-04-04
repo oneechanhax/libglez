@@ -5,9 +5,9 @@
 
 #pragma once
 
-#include <vertex-buffer.h>
 #include <freetype-gl.h>
 #include <glez/color.hpp>
+#include <vertex-buffer.h>
 
 namespace glez {
 
@@ -23,7 +23,7 @@ enum class mode {
     FREETYPE
 };
 
-extern ftgl::vertex_buffer_t *buffer;
+extern ftgl::vertex_buffer_t* buffer;
 struct vertex {
     ftgl::vec2 position;
     ftgl::vec2 uv;
@@ -33,4 +33,4 @@ struct vertex {
 
 void bind(GLuint texture);
 
-}; // namespace glez::detail::program
+}; // namespace glez

@@ -4,16 +4,13 @@
 
 #pragma once
 
-namespace glez::detail::record
-{
+namespace glez::detail::record {
 class RecordedCommands;
 }
 
-namespace glez::record
-{
+namespace glez::record {
 
-class Record
-{
+class Record {
 public:
     Record();
     ~Record();
@@ -22,7 +19,7 @@ public:
     void end();
     void replay();
 
-    detail::record::RecordedCommands *commands{ nullptr };
+    detail::record::RecordedCommands* commands { nullptr };
 };
 
 } // namespace glez::record

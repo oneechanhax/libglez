@@ -3,14 +3,14 @@
   Copyright (c) 2018 nullworks. All rights reserved.
 */
 
-#include <glez/font.hpp>
-#include <vector>
-#include <memory>
 #include <cassert>
+#include <glez/font.hpp>
+#include <memory>
+#include <vector>
 
 namespace glez {
 
-font font::loadFromFile(const std::string &path, float size) {
+font font::loadFromFile(const std::string& path, float size) {
     assert(size > 0);
 
     font ret;
@@ -36,7 +36,7 @@ glez::font& font::operator=(glez::font&& var) {
     return *this;
 }
 void font::stringSize(const std::string& string, float* width, float* height) {
-  assert(this->isLoaded());
+    assert(this->isLoaded());
     float penX = 0;
 
     float size_x = 0;
@@ -44,12 +44,11 @@ void font::stringSize(const std::string& string, float* width, float* height) {
 
     texture_font_load_glyphs(m_font, string.c_str());
 
-    const char *sstring = string.c_str();
+    const char* sstring = string.c_str();
 
-    for (size_t i = 0; i < string.size(); ++i)
-    {
+    for (size_t i = 0; i < string.size(); ++i) {
         // c_str guarantees a NULL terminator
-        texture_glyph_t *glyph = texture_font_find_glyph(m_font, &sstring[i]);
+        texture_glyph_t* glyph = texture_font_find_glyph(m_font, &sstring[i]);
         if (glyph == nullptr)
             continue;
 
@@ -68,4 +67,4 @@ void font::stringSize(const std::string& string, float* width, float* height) {
         *height = size_y;
 }
 
-} // namespace glez::detail::font
+} // namespace glez

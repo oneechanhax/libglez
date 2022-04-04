@@ -5,18 +5,17 @@
 
 #pragma once
 
-#include <freetype-gl.h>
-#include <string>
-#include <limits>
 #include <cstddef>
+#include <freetype-gl.h>
+#include <limits>
+#include <string>
 
-namespace glez
-{
+namespace glez {
 
 class texture {
 public:
-    texture(){}
-    static texture loadFromFile(const std::string &path);
+    texture() { }
+    static texture loadFromFile(const std::string& path);
     static texture loadFromMemory(const std::byte* mem, std::size_t size, unsigned w, unsigned h);
     texture(texture&&);
     ~texture();
@@ -26,6 +25,7 @@ public:
     void bind();
 
     inline bool isLoaded() { return this->init; }
+
 public:
     bool init = false;
     bool bound = false;
@@ -33,7 +33,7 @@ public:
     int height = 0;
 
     GLuint id;
-    GLubyte *data;
+    GLubyte* data;
 };
 
-} // namespace glez::texture
+} // namespace glez

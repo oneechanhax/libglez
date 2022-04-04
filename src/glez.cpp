@@ -3,20 +3,19 @@
   Copyright (c) 2018 nullworks. All rights reserved.
 */
 
-#include <freetype-gl.h>
-#include <vertex-buffer.h>
-#include <mat4.h>
-#include <glez/glez.hpp>
-#include <cstdio>
-#include <stdexcept>
 #include <cassert>
+#include <cstdio>
+#include <cstring>
+#include <freetype-gl.h>
+#include <glez/detail/record.hpp>
 #include <glez/detail/render.hpp>
 #include <glez/font.hpp>
-#include <cstring>
 #include <glez/glez.hpp>
-#include <glez/detail/record.hpp>
+#include <mat4.h>
+#include <stdexcept>
+#include <vertex-buffer.h>
 
-static const char *shader_vertex = R"END(
+static const char* shader_vertex = R"END(
 #version 130
 uniform mat4 projection;
 in vec2 vertex;
@@ -35,7 +34,7 @@ void main()
 }
 )END";
 
-static const char *shader_fragment = R"END(
+static const char* shader_fragment = R"END(
 #version 130
 uniform sampler2D texture;
 in vec4 frag_Color;
@@ -60,9 +59,9 @@ void main()
 }
 )END";
 
-static GLuint shader{ 0 };
+static GLuint shader { 0 };
 
-static GLuint compile(const char *source, GLenum type) {
+static GLuint compile(const char* source, GLenum type) {
     GLint status;
     GLuint result = glCreateShader(type);
 
@@ -70,8 +69,7 @@ static GLuint compile(const char *source, GLenum type) {
     glCompileShader(result);
     glGetShaderiv(result, GL_COMPILE_STATUS, &status);
 
-    if (status != GL_TRUE)
-    {
+    if (status != GL_TRUE) {
         char error[512];
         GLsizei length;
         glGetShaderInfoLog(result, 512, &length, error);
@@ -113,8 +111,7 @@ void resize(int width, int height) {
     glUseProgram(0);
 }
 
-void init(int width, int height)
-{
+void init(int width, int height) {
     buffer = ftgl::vertex_buffer_new("vertex:2f,tex_coord:2f,color:4f,drawmode:1i");
     shader = link(compile(shader_vertex, GL_VERTEX_SHADER), compile(shader_fragment, GL_FRAGMENT_SHADER));
 
@@ -130,8 +127,7 @@ void shutdown() {
     glDeleteProgram(shader);
 }
 
-static GLuint current_texture{ 0 };
-
+static GLuint current_texture { 0 };
 
 void begin() {
     glPushAttrib(GL_CURRENT_BIT | GL_ENABLE_BIT | GL_TEXTURE_BIT | GL_COLOR_BUFFER_BIT);
@@ -183,4 +179,4 @@ void bind(GLuint texture) {
     }
 }
 
-}
+} // namespace glez

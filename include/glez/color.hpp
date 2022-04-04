@@ -10,11 +10,15 @@ namespace glez {
 struct rgba {
     rgba() = default;
     inline constexpr rgba(int r, int g, int b)
-        : r(r / 255.0f), g(g / 255.0f), b(b / 255.0f), a(1.0f)
-    {}
+        : r(r / 255.0f)
+        , g(g / 255.0f)
+        , b(b / 255.0f)
+        , a(1.0f) { }
     inline constexpr rgba(int r, int g, int b, int a)
-        : r(r / 255.0f), g(g / 255.0f), b(b / 255.0f), a(a / 255.0f)
-    {}
+        : r(r / 255.0f)
+        , g(g / 255.0f)
+        , b(b / 255.0f)
+        , a(a / 255.0f) { }
 
     float r;
     float g;

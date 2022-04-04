@@ -4,29 +4,28 @@
 */
 
 #include <cassert>
+#include <cmath>
+#include <cstring>
+#include <glez/detail/record.hpp>
+#include <glez/detail/render.hpp>
 #include <glez/draw.hpp>
 #include <glez/font.hpp>
-#include <glez/detail/render.hpp>
 #include <glez/glez.hpp>
-#include <vertex-buffer.h>
-#include <cstring>
 #include <glez/texture.hpp>
-#include <cmath>
-#include <glez/detail/record.hpp>
+#include <vertex-buffer.h>
 
-namespace indices
-{
+namespace indices {
 
 static GLuint rectangle[6] = { 0, 1, 2, 2, 3, 0 };
-static GLuint triangle[3]  = { 0, 1, 2 };
+static GLuint triangle[3] = { 0, 1, 2 };
 } // namespace indices
 
-void internal_draw_string(float x, float y, const std::string &string,
-                          glez::font& font, glez::rgba color, float *width, float *height) {
+void internal_draw_string(float x, float y, const std::string& string,
+    glez::font& font, glez::rgba color, float* width, float* height) {
     assert(font.isLoaded());
     auto* fnt = font.m_font;
-    float pen_x  = x;
-    float pen_y  = y + fnt->height / 1.5f;
+    float pen_x = x;
+    float pen_y = y + fnt->height / 1.5f;
     float size_y = 0;
 
     if (glez::detail::record::currentRecord) {
@@ -43,18 +42,18 @@ void internal_draw_string(float x, float y, const std::string &string,
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, fnt->atlas->width,
-                         fnt->atlas->height, 0, GL_RED, GL_UNSIGNED_BYTE,
-                         fnt->atlas->data);
+                fnt->atlas->height, 0, GL_RED, GL_UNSIGNED_BYTE,
+                fnt->atlas->data);
             fnt->atlas->dirty = 0;
         }
     }
 
-    const char *sstring = string.c_str();
+    const char* sstring = string.c_str();
 
-    bool skipped{ false };
+    bool skipped { false };
 
     for (size_t i = 0; i < string.size(); ++i) {
-        texture_glyph_t *glyph = texture_font_find_glyph(fnt, &sstring[i]);
+        texture_glyph_t* glyph = texture_font_find_glyph(fnt, &sstring[i]);
         if (glyph == NULL) {
             texture_font_load_glyph(fnt, &sstring[i]);
             if (!skipped)
@@ -64,7 +63,7 @@ void internal_draw_string(float x, float y, const std::string &string,
         }
         skipped = false;
         glez::vertex vertices[4];
-        for (auto &vertex : vertices) {
+        for (auto& vertex : vertices) {
             vertex.color = color;
             vertex.mode = static_cast<int>(glez::mode::FREETYPE);
         }
@@ -72,26 +71,26 @@ void internal_draw_string(float x, float y, const std::string &string,
         if (i > 0)
             x += texture_glyph_get_kerning(glyph, &sstring[i - 1]);
 
-        float x0 = (int) (pen_x + glyph->offset_x);
-        float y0 = (int) (pen_y - glyph->offset_y);
-        float x1 = (int) (x0 + glyph->width);
-        float y1 = (int) (y0 + glyph->height);
+        float x0 = (int)(pen_x + glyph->offset_x);
+        float y0 = (int)(pen_y - glyph->offset_y);
+        float x1 = (int)(x0 + glyph->width);
+        float y1 = (int)(y0 + glyph->height);
         float s0 = glyph->s0;
         float t0 = glyph->t0;
         float s1 = glyph->s1;
         float t1 = glyph->t1;
 
         vertices[0].position = { x0, y0 };
-        vertices[0].uv       = { s0, t0 };
+        vertices[0].uv = { s0, t0 };
 
         vertices[1].position = { x0, y1 };
-        vertices[1].uv       = { s0, t1 };
+        vertices[1].uv = { s0, t1 };
 
         vertices[2].position = { x1, y1 };
-        vertices[2].uv       = { s1, t1 };
+        vertices[2].uv = { s1, t1 };
 
         vertices[3].position = { x1, y0 };
-        vertices[3].uv       = { s1, t0 };
+        vertices[3].uv = { s1, t0 };
 
         pen_x += glyph->advance_x;
         // pen_x = (int) pen_x + 1;
@@ -123,8 +122,8 @@ void line(float x, float y, float dx, float dy, rgba color, float thickness) {
 
     vertex vertices[4];
 
-    for (auto &vertex : vertices) {
-        vertex.mode  = static_cast<int>(mode::PLAIN);
+    for (auto& vertex : vertices) {
+        vertex.mode = static_cast<int>(mode::PLAIN);
         vertex.color = color;
     }
 
@@ -155,17 +154,17 @@ void line(float x, float y, float dx, float dy, rgba color, float thickness) {
 
     if (detail::record::currentRecord)
         detail::record::currentRecord->store(vertices, 4, indices::rectangle,
-                                             6);
+            6);
     else
         ftgl::vertex_buffer_push_back(buffer, vertices, 4,
-                                      indices::rectangle, 6);
+            indices::rectangle, 6);
 }
 
 void rect(float x, float y, float w, float h, rgba color) {
     vertex vertices[4];
 
-    for (auto &vertex : vertices) {
-        vertex.mode  = static_cast<int>(mode::PLAIN);
+    for (auto& vertex : vertices) {
+        vertex.mode = static_cast<int>(mode::PLAIN);
         vertex.color = color;
     }
 
@@ -183,8 +182,8 @@ void rect(float x, float y, float w, float h, rgba color) {
 void triangle(float x, float y, float x2, float y2, float x3, float y3, rgba color) {
     vertex vertices[3];
 
-    for (auto &vertex : vertices) {
-        vertex.mode  = static_cast<int>(mode::PLAIN);
+    for (auto& vertex : vertices) {
+        vertex.mode = static_cast<int>(mode::PLAIN);
         vertex.color = color;
     }
 
@@ -206,7 +205,7 @@ void rect_outline(float x, float y, float w, float h, rgba color, float thicknes
 }
 
 void circle(float x, float y, float radius, rgba color, float thickness,
-            int steps) {
+    int steps) {
     float px = 0;
     float py = 0;
     for (int i = 0; i <= steps; i++) {
@@ -220,19 +219,19 @@ void circle(float x, float y, float radius, rgba color, float thickness,
     }
 }
 
-void string(float x, float y, const std::string &string, font &font, rgba color, float *width, float *height) {
-    auto fnt               = font.m_font;
-    fnt->rendermode        = RENDER_NORMAL;
+void string(float x, float y, const std::string& string, font& font, rgba color, float* width, float* height) {
+    auto fnt = font.m_font;
+    fnt->rendermode = RENDER_NORMAL;
     fnt->outline_thickness = 0.0f;
     internal_draw_string(x, y, string, font, color, width, height);
 }
 
-void outlined_string(float x, float y, const std::string& string, font& font, rgba color, rgba outline, float *width, float *height) {
-    auto fnt               = font.m_font;
-    fnt->rendermode        = RENDER_OUTLINE_POSITIVE;
+void outlined_string(float x, float y, const std::string& string, font& font, rgba color, rgba outline, float* width, float* height) {
+    auto fnt = font.m_font;
+    fnt->rendermode = RENDER_OUTLINE_POSITIVE;
     fnt->outline_thickness = 1.0f;
     internal_draw_string(x, y, string, font, outline, width, height);
-    fnt->rendermode        = RENDER_NORMAL;
+    fnt->rendermode = RENDER_NORMAL;
     fnt->outline_thickness = 0.0f;
     internal_draw_string(x, y, string, font, color, width, height);
 }
@@ -242,8 +241,8 @@ void rect_textured(float x, float y, float w, float h, rgba color, texture& text
         texture.load();*/
     assert(texture.isLoaded());
 
-    //if (!texture.canLoad())
-        //return;
+    // if (!texture.canLoad())
+    // return;
 
     if (glez::detail::record::currentRecord)
         glez::detail::record::currentRecord->bindTexture(&texture);
@@ -252,8 +251,8 @@ void rect_textured(float x, float y, float w, float h, rgba color, texture& text
 
     vertex vertices[4];
 
-    for (auto &vertex : vertices) {
-        vertex.mode  = static_cast<int>(mode::TEXTURED);
+    for (auto& vertex : vertices) {
+        vertex.mode = static_cast<int>(mode::TEXTURED);
         vertex.color = color;
     }
 
@@ -266,7 +265,7 @@ void rect_textured(float x, float y, float w, float h, rgba color, texture& text
         float cx = x + float(w) / 2.0f;
         float cy = y + float(h) / 2.0f;
 
-        for (auto &v : vertices) {
+        for (auto& v : vertices) {
             float ox = v.position.x;
             float oy = v.position.y;
 

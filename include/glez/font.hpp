@@ -13,19 +13,20 @@ namespace glez {
 
 class font {
 public:
-    font(){}
-    static font loadFromFile(const std::string &path, float size);
+    font() { }
+    static font loadFromFile(const std::string& path, float size);
     font(font&&);
     ~font();
 
     glez::font& operator=(glez::font&&);
 
-    //void stringSize(std::string_view string, float* width, float* height);
+    // void stringSize(std::string_view string, float* width, float* height);
     void stringSize(const std::string& string, float* width, float* height);
-    inline bool isLoaded() { return  this->m_font != nullptr && this->atlas != nullptr;  };
+    inline bool isLoaded() { return this->m_font != nullptr && this->atlas != nullptr; };
+
 public:
     texture_font_t* m_font = nullptr;
     texture_atlas_t* atlas = nullptr;
 };
 
-} // namespace glez::detail::font
+} // namespace glez
