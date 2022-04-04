@@ -1,0 +1,27 @@
+version: 2.1
+
+jobs:
+  build-libglez:
+    docker:
+      - image: ubuntu:22.04 # LTS only
+    environment:
+      DEBIAN_FRONTEND: noninteractive
+    steps:
+      - checkout
+      - run:
+          name: "Install development packages"
+          command: "apt update && apt install -y build-essential cmake libz-dev libpng-dev libglew-dev libgl-dev libx11-dev libxext-dev libxfixes-dev libfreetype-dev"
+      - run:
+          name: "Make build directory"
+          command: "mkdir build"
+      - run:
+          name: "CMake build files"
+          command: "cd build && cmake -DCMAKE_BUILD_TYPE=Release ../"
+      - run:
+          name: "Build Project"
+          command: "cd build && make"
+
+workflows:
+  build-libpdraw-workflow:
+    jobs:
+      - build-libglez
