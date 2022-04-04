@@ -1,6 +1,24 @@
-bin*
-*.o
-.settings*
-build
-.idea
-cmake-build-debug
+# IDE
+.vs/
+.vscode/
+ipch/
+*.aps
+*.ncb
+*.opendb
+*.opensdf
+*.sdf
+*.cachefile
+*.VC.db
+.cache/*
+
+# Build Files
+CMakeFiles/*
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+build/*
+compile_commands.json
+
+# Binaries
+libgui-mate.a
+example
