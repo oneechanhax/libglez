@@ -8,7 +8,6 @@
 #include <cstring>
 #include <freetype-gl.h>
 #include <glez/detail/record.hpp>
-#include <glez/detail/render.hpp>
 #include <glez/font.hpp>
 #include <glez/glez.hpp>
 #include <mat4.h>
