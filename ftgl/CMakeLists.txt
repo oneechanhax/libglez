@@ -1,10 +1,6 @@
 target_sources(glez PRIVATE
         "${CMAKE_CURRENT_LIST_DIR}/freetype-gl.h"
-        "${CMAKE_CURRENT_LIST_DIR}/markup.h"
         "${CMAKE_CURRENT_LIST_DIR}/mat4.h"
-        "${CMAKE_CURRENT_LIST_DIR}/opengl.h"
-        "${CMAKE_CURRENT_LIST_DIR}/platform.h"
-        "${CMAKE_CURRENT_LIST_DIR}/text-buffer.h"
         "${CMAKE_CURRENT_LIST_DIR}/texture-atlas.h"
         "${CMAKE_CURRENT_LIST_DIR}/texture-font.h"
         "${CMAKE_CURRENT_LIST_DIR}/utf8-utils.h"
