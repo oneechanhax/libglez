@@ -1,0 +1,25 @@
+diff --git a/vertex-attribute.c b/vertex-attribute.c
+index 79cfa4d..1e04d8a 100644
+--- a/vertex-attribute.c
++++ b/vertex-attribute.c
+@@ -135,6 +135,18 @@ vertex_attribute_enable( vertex_attribute_t *attr )
+         }
+     }
+     glEnableVertexAttribArray( attr->index );
+-    glVertexAttribPointer( attr->index, attr->size, attr->type,
+-                           attr->normalized, attr->stride, attr->pointer );
++    switch (attr->type) {
++    case GL_UNSIGNED_SHORT:
++    case GL_UNSIGNED_INT:
++    case GL_UNSIGNED_BYTE:
++    case GL_SHORT:
++    case GL_INT:
++    case GL_BYTE:
++        glVertexAttribIPointer(attr->index, attr->size, attr->type,
++            attr->stride, attr->pointer);
++        break;
++    default:
++        glVertexAttribPointer(attr->index, attr->size, attr->type,
++            attr->normalized, attr->stride, attr->pointer);
++    }
+ }
