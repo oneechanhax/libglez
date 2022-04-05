@@ -35,7 +35,7 @@ jobs:
       - checkout
       - run:
           name: "Install development packages"
-          command: "apt install -y libz-dev libpng-dev libsdl2-dev"
+          command: "apt install -y libz-dev libpng-dev libsdl2-dev glm"
       - run:
           name: "Make build directory"
           command: "mkdir build"
