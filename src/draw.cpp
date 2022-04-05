@@ -31,7 +31,7 @@ void internal_draw_string(float x, float y, const std::string& string,
 
     glez::bind(fnt->atlas->id);
 
-    if (fnt->atlas->dirty) {
+    if (fnt->atlas->modified) {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -39,7 +39,7 @@ void internal_draw_string(float x, float y, const std::string& string,
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, fnt->atlas->width,
             fnt->atlas->height, 0, GL_RED, GL_UNSIGNED_BYTE,
             fnt->atlas->data);
-        fnt->atlas->dirty = 0;
+        fnt->atlas->modified = 0;
     }
 
     const char* sstring = string.c_str();

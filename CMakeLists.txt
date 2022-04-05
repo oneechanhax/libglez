@@ -21,7 +21,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/i
 target_link_libraries(${PROJECT_NAME} ${GLEW_LIBRARIES} ${FREETYPE_LIBRARIES} z GL /usr/local/lib/libfreetype-gl.a)
 
 add_subdirectory(src)
-add_subdirectory(ftgl)
 
 install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME} DESTINATION "lib")
 install(DIRECTORY include/glez DESTINATION "include")
