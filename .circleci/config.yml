@@ -15,7 +15,7 @@ jobs:
           command: "git clone https://github.com/rougier/freetype-gl freetype-gl && cd freetype-gl && git checkout 85d7850744465ac1dcd00b202787d72a4a3a1f5d"
       - run:
           name: "Install freetype-gl packages"
-          command: "apt install -y build-essential cmake libgl-dev libx11-dev libglfw3-dev libglew-dev libxext-dev libxfixes-dev libfreetype-dev doxygen"
+          command: "apt install -y build-essential cmake libgl-dev libx11-dev libglfw3-dev libglew-dev libxext-dev libxfixes-dev libfreetype-dev fontconfig-dev imagemagick doxygen"
       - run:
           name: "Make build directory"
           command: "mkdir freetype-gl/build"
