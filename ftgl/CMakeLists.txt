@@ -1,7 +1,6 @@
 target_sources(glez PRIVATE
-        "${CMAKE_CURRENT_LIST_DIR}/distance-field.h"
+	"${CMAKE_CURRENT_LIST_DIR}/distance-field.c"
         "${CMAKE_CURRENT_LIST_DIR}/edtaa3func.h"
-        "${CMAKE_CURRENT_LIST_DIR}/font-manager.h"
         "${CMAKE_CURRENT_LIST_DIR}/freetype-gl.h"
         "${CMAKE_CURRENT_LIST_DIR}/markup.h"
         "${CMAKE_CURRENT_LIST_DIR}/mat4.h"
@@ -17,13 +16,9 @@ target_sources(glez PRIVATE
         "${CMAKE_CURRENT_LIST_DIR}/vertex-buffer.h")
     
 target_sources(glez PRIVATE
-        "${CMAKE_CURRENT_LIST_DIR}/distance-field.c"
-        "${CMAKE_CURRENT_LIST_DIR}/edtaa3func.c"
-        "${CMAKE_CURRENT_LIST_DIR}/font-manager.c"
-        "${CMAKE_CURRENT_LIST_DIR}/makefont.c"
+	"${CMAKE_CURRENT_LIST_DIR}/edtaa3func.c"
+	"${CMAKE_CURRENT_LIST_DIR}/distance-field.c"
         "${CMAKE_CURRENT_LIST_DIR}/mat4.c"
-        "${CMAKE_CURRENT_LIST_DIR}/platform.c"
-        "${CMAKE_CURRENT_LIST_DIR}/text-buffer.c"
         "${CMAKE_CURRENT_LIST_DIR}/texture-atlas.c"
         "${CMAKE_CURRENT_LIST_DIR}/texture-font.c"
         "${CMAKE_CURRENT_LIST_DIR}/utf8-utils.c"
