@@ -7,10 +7,35 @@ jobs:
     environment:
       DEBIAN_FRONTEND: noninteractive
     steps:
+      - run:
+          name: "Update apt and Install git"
+          command: "apt update && apt install -y git"
+      - run:
+          name: "Clone freetype-gl"
+          command: "git clone -b 85d7850744465ac1dcd00b202787d72a4a3a1f5d https://github.com/rougier/freetype-gl freetype-gl"
+      - run:
+          name: "Install freetype-gl packages"
+          command: "apt install -y build-essential cmake libglew-dev libgl-dev libx11-dev libxext-dev libxfixes-dev libfreetype-dev"
+      - run:
+          name: "Make build directory"
+          command: "mkdir freetype-gl/build"
+      - run:
+          name: "CMake build files"
+          command: "cd freetype-gl/build && cmake -DCMAKE_BUILD_TYPE=Release -DOpenGL_GL_PREFERENCE=GLVND -Dfreetype-gl_BUILD_SHARED=ON ../"
+      - run:
+          name: "Build freetype-gl"
+          command: "cd freetype-gl/build && make"
+      - run:
+          name: "Install freetype-dl"
+          command: "cd freetype-dl/build && make install"
+      - run:
+          name: "Remove freetype-dl source"
+          command: "rm -rf freetype-dl/"
+
       - checkout
       - run:
           name: "Install development packages"
-          command: "apt update && apt install -y build-essential cmake libz-dev libpng-dev libglew-dev libgl-dev libx11-dev libxext-dev libxfixes-dev libfreetype-dev libsdl2-dev"
+          command: "apt install -y libz-dev libpng-dev libsdl2-dev"
       - run:
           name: "Make build directory"
           command: "mkdir build"
