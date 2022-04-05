@@ -26,11 +26,11 @@ jobs:
           name: "Build freetype-gl"
           command: "cd freetype-gl/build && make"
       - run:
-          name: "Install freetype-dl"
-          command: "cd freetype-dl/build && make install"
+          name: "Install freetype-gl"
+          command: "cd freetype-gl/build && make install"
       - run:
-          name: "Remove freetype-dl source"
-          command: "rm -rf freetype-dl/"
+          name: "Remove freetype-gl source"
+          command: "rm -rf freetype-gl/"
 
       - checkout
       - run:
