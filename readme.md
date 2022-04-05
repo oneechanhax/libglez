@@ -1,4 +1,4 @@
-## Libglez
+# Libglez
 
 Libglez is a library for drawing primitives with opengl!
 
