@@ -10,7 +10,9 @@
 #include <glez/detail/record.hpp>
 #include <glez/font.hpp>
 #include <glez/glez.hpp>
-#include <mat4.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <stdexcept>
 #include <vertex-buffer.h>
 
@@ -103,10 +105,8 @@ vertex_buffer_t* buffer { nullptr };
 
 void resize(int width, int height) {
     glUseProgram(shader);
-    mat4 projection;
-    mat4_set_identity(&projection);
-    mat4_set_orthographic(&projection, 0, width, height, 0, -1, 1);
-    glUniformMatrix4fv(glGetUniformLocation(shader, "projection"), 1, 0, projection.data);
+    auto projection = glm::ortho<float>(0.0f, width, height, 0.0f, -1.0f, 1.0f);
+    glUniformMatrix4fv(glGetUniformLocation(shader, "projection"), 1, 0, glm::value_ptr(projection));
     glUseProgram(0);
 }
 
