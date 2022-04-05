@@ -7,7 +7,6 @@
 #include <cstdio>
 #include <cstring>
 #include <freetype-gl.h>
-#include <glez/detail/record.hpp>
 #include <glez/font.hpp>
 #include <glez/glez.hpp>
 #include <glm/glm.hpp>
@@ -169,10 +168,8 @@ void end() {
 
 void bind(GLuint texture) {
     if (current_texture != texture) {
-        if (!detail::record::isReplaying) {
-            vertex_buffer_render(buffer, GL_TRIANGLES);
-            ftgl::vertex_buffer_clear(buffer);
-        }
+        vertex_buffer_render(buffer, GL_TRIANGLES);
+        ftgl::vertex_buffer_clear(buffer);
         current_texture = texture;
         glBindTexture(GL_TEXTURE_2D, texture);
     }

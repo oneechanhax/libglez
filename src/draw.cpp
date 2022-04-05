@@ -6,7 +6,6 @@
 #include <cassert>
 #include <cmath>
 #include <cstring>
-#include <glez/detail/record.hpp>
 #include <glez/draw.hpp>
 #include <glez/font.hpp>
 #include <glez/glez.hpp>
@@ -27,24 +26,20 @@ void internal_draw_string(float x, float y, const std::string& string,
     float pen_y = y + fnt->height / 1.5f;
     float size_y = 0;
 
-    if (glez::detail::record::currentRecord) {
-        glez::detail::record::currentRecord->bindFont(&font);
-    } else {
-        if (fnt->atlas->id == 0)
-            glGenTextures(1, &fnt->atlas->id);
+    if (fnt->atlas->id == 0)
+        glGenTextures(1, &fnt->atlas->id);
 
-        glez::bind(fnt->atlas->id);
+    glez::bind(fnt->atlas->id);
 
-        if (fnt->atlas->dirty) {
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, fnt->atlas->width,
-                fnt->atlas->height, 0, GL_RED, GL_UNSIGNED_BYTE,
-                fnt->atlas->data);
-            fnt->atlas->dirty = 0;
-        }
+    if (fnt->atlas->dirty) {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, fnt->atlas->width,
+            fnt->atlas->height, 0, GL_RED, GL_UNSIGNED_BYTE,
+            fnt->atlas->data);
+        fnt->atlas->dirty = 0;
     }
 
     const char* sstring = string.c_str();
@@ -96,10 +91,7 @@ void internal_draw_string(float x, float y, const std::string& string,
         if (glyph->height > size_y)
             size_y = glyph->height;
 
-        if (glez::detail::record::currentRecord)
-            glez::detail::record::currentRecord->store(vertices, 4, indices::rectangle, 6);
-        else
-            vertex_buffer_push_back(glez::buffer, vertices, 4, indices::rectangle, 6);
+        vertex_buffer_push_back(glez::buffer, vertices, 4, indices::rectangle, 6);
     }
 
     if (width)
@@ -151,12 +143,8 @@ void line(float x, float y, float dx, float dy, rgba color, float thickness) {
     vertices[3].position = { ex + nx + px, ey + ny + py };
     vertices[0].position = { ex + nx - px, ey + ny - py };
 
-    if (detail::record::currentRecord)
-        detail::record::currentRecord->store(vertices, 4, indices::rectangle,
-            6);
-    else
-        ftgl::vertex_buffer_push_back(buffer, vertices, 4,
-            indices::rectangle, 6);
+    ftgl::vertex_buffer_push_back(buffer, vertices, 4,
+        indices::rectangle, 6);
 }
 
 void rect(float x, float y, float w, float h, rgba color) {
@@ -172,10 +160,7 @@ void rect(float x, float y, float w, float h, rgba color) {
     vertices[2].position = { x + w, y + h };
     vertices[3].position = { x + w, y };
 
-    if (detail::record::currentRecord)
-        detail::record::currentRecord->store(vertices, 4, indices::rectangle, 6);
-    else
-        ftgl::vertex_buffer_push_back(buffer, vertices, 4, indices::rectangle, 6);
+    ftgl::vertex_buffer_push_back(buffer, vertices, 4, indices::rectangle, 6);
 }
 
 void triangle(float x, float y, float x2, float y2, float x3, float y3, rgba color) {
@@ -190,10 +175,7 @@ void triangle(float x, float y, float x2, float y2, float x3, float y3, rgba col
     vertices[1].position = { x2, y2 };
     vertices[2].position = { x3, y3 };
 
-    if (detail::record::currentRecord)
-        detail::record::currentRecord->store(vertices, 3, indices::rectangle, 3);
-    else
-        ftgl::vertex_buffer_push_back(buffer, vertices, 3, indices::rectangle, 3);
+    ftgl::vertex_buffer_push_back(buffer, vertices, 3, indices::rectangle, 3);
 }
 
 void rect_outline(float x, float y, float w, float h, rgba color, float thickness) {
@@ -243,10 +225,7 @@ void rect_textured(float x, float y, float w, float h, rgba color, texture& text
     // if (!texture.canLoad())
     // return;
 
-    if (glez::detail::record::currentRecord)
-        glez::detail::record::currentRecord->bindTexture(&texture);
-    else
-        texture.bind();
+    texture.bind();
 
     vertex vertices[4];
 
@@ -283,9 +262,6 @@ void rect_textured(float x, float y, float w, float h, rgba color, texture& text
     vertices[2].uv = { s1, t1 };
     vertices[3].uv = { s1, t0 };
 
-    if (detail::record::currentRecord)
-        detail::record::currentRecord->store(vertices, 4, indices::rectangle, 6);
-    else
-        ftgl::vertex_buffer_push_back(buffer, vertices, 4, indices::rectangle, 6);
+    ftgl::vertex_buffer_push_back(buffer, vertices, 4, indices::rectangle, 6);
 }
 } // namespace glez::draw
