@@ -6,9 +6,9 @@
 #include <cassert>
 #include <cstring>
 #include <glez/glez.hpp>
-#include <glez/picopng/picopng.hpp>
 #include <glez/texture.hpp>
 #include <memory>
+#include <picopng/picopng.hpp>
 #include <vector>
 
 #include <fstream> // required to load the file

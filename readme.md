@@ -1,5 +1,13 @@
-# Installation
+## Libglez
 
-## Requirements
+Libglez is a library for drawing primitives with opengl!
 
-libfreetype libGLEW libpng
+This library requires freetype-gl to be patched with ftgl-vertex-attribute.patch.
+
+### Credits
+
+nullifiedcat: original creator <3
+@oneechanhax: Maintainer
+@thinkingmaster: Contributor
+@BenCat07: Contributor
+
