@@ -11,6 +11,7 @@
 
 namespace glez {
 
+[[deprecated]] inline void preInit() { }
 void init(int width, int height);
 void shutdown();
 void resize(int width, int height);

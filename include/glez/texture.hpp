@@ -34,6 +34,15 @@ public:
 
     GLuint id;
     GLubyte* data;
+
+public:
+    [[deprecated]] int getWidth() const { return this->width; }
+    [[deprecated]] int getHeight() const { return this->height; }
+    [[deprecated]] unsigned getHandle() const { return 1; }
+    [[deprecated]] bool canLoad() const { return true; }
+    [[deprecated]] void load() { }
+    [[deprecated]] void unload() { }
+    [[deprecated]] const std::string path;
 };
 
 } // namespace glez

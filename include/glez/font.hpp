@@ -27,6 +27,13 @@ public:
 public:
     texture_font_t* m_font = nullptr;
     texture_atlas_t* atlas = nullptr;
+
+public:
+    [[deprecated]] unsigned getHandle() const { return 1; }
+    [[deprecated]] void load() { }
+    [[deprecated]] void unload() { }
+    [[deprecated]] const std::string path;
+    [[deprecated]] const float size;
 };
 
 } // namespace glez
