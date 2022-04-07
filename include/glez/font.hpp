@@ -33,7 +33,7 @@ public:
     [[deprecated]] void load() { }
     [[deprecated]] void unload() { }
     [[deprecated]] const std::string path;
-    [[deprecated]] const float size;
+    [[deprecated]] const float size = 1;
 };
 
 } // namespace glez
