@@ -34,6 +34,11 @@ constexpr rgba black(0, 0, 0);
 constexpr rgba red(255, 0, 0);
 constexpr rgba green(0, 255, 0);
 constexpr rgba blue(0, 0, 255);
+constexpr rgba yellow(255, 255, 0);
+constexpr rgba orange(255, 120, 0);
+constexpr rgba pink(255, 105, 180);
+
+rgba RainbowCurrent();
 
 } // namespace color
 } // namespace glez
