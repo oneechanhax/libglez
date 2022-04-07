@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(glez LANGUAGES C CXX VERSION 1.0.0)
+project(glez LANGUAGES CXX VERSION 2.0.0)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS true)
 
 find_package(SDL2 REQUIRED)
 find_package(GLEW REQUIRED)
