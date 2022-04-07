@@ -4,9 +4,10 @@
 */
 
 #include <cassert>
-#include <glez/font.hpp>
 #include <memory>
 #include <vector>
+
+#include <glez/font.hpp>
 
 namespace glez {
 

@@ -5,10 +5,11 @@
 
 #pragma once
 
+#include <string>
+
 #include "color.hpp"
 #include "font.hpp"
 #include "texture.hpp"
-#include <string>
 
 namespace glez::draw {
 

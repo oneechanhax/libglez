@@ -5,9 +5,10 @@
 
 #pragma once
 
-#include <freetype-gl.h>
 #include <limits>
 #include <string>
+
+#include <freetype-gl.h>
 
 namespace glez {
 

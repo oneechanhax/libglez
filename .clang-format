@@ -3,3 +3,4 @@ BreakBeforeBraces: Attach
 CompactNamespaces: true
 FixNamespaceComments: true
 NamespaceIndentation: None
+SortIncludes: Never

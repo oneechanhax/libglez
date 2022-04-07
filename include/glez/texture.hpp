@@ -6,9 +6,10 @@
 #pragma once
 
 #include <cstddef>
-#include <freetype-gl.h>
 #include <limits>
 #include <string>
+
+#include <freetype-gl.h>
 
 namespace glez {
 

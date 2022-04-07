@@ -6,14 +6,16 @@
 #include <cassert>
 #include <cstdio>
 #include <cstring>
+#include <stdexcept>
+
 #include <freetype-gl.h>
-#include <glez/font.hpp>
-#include <glez/glez.hpp>
+#include <vertex-buffer.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <stdexcept>
-#include <vertex-buffer.h>
+
+#include <glez/font.hpp>
+#include <glez/glez.hpp>
 
 static const char* shader_vertex = R"END(
 #version 130

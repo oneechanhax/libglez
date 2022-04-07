@@ -3,15 +3,16 @@
   Copyright (c) 2018 nullworks. All rights reserved.
 */
 
-#include "picopng/picopng.hpp"
 #include <cassert>
 #include <cstring>
-#include <glez/glez.hpp>
-#include <glez/texture.hpp>
+#include <fstream>
 #include <memory>
 #include <vector>
 
-#include <fstream> // required to load the file
+#include "picopng/picopng.hpp"
+
+#include <glez/glez.hpp>
+#include <glez/texture.hpp>
 
 namespace glez {
 

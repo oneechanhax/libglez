@@ -6,11 +6,13 @@
 #include <cassert>
 #include <cmath>
 #include <cstring>
+
+#include <vertex-buffer.h>
+
 #include <glez/draw.hpp>
 #include <glez/font.hpp>
 #include <glez/glez.hpp>
 #include <glez/texture.hpp>
-#include <vertex-buffer.h>
 
 namespace indices {
 
