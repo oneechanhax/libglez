@@ -36,7 +36,7 @@ glez::font& font::operator=(glez::font&& var) {
     var.atlas = nullptr;
     return *this;
 }
-void font::stringSize(const std::string& string, float* width, float* height) {
+void font::stringSize(const std::string& string, float* width, float* height) const {
     assert(this->isLoaded());
     float penX = 0;
 

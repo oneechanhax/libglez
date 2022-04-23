@@ -22,8 +22,8 @@ public:
     glez::font& operator=(glez::font&&);
 
     // void stringSize(std::string_view string, float* width, float* height);
-    void stringSize(const std::string& string, float* width, float* height);
-    inline bool isLoaded() { return this->m_font != nullptr && this->atlas != nullptr; };
+    void stringSize(const std::string& string, float* width, float* height) const;
+    inline bool isLoaded() const { return this->m_font != nullptr && this->atlas != nullptr; };
 
 public:
     texture_font_t* m_font = nullptr;

@@ -21,7 +21,7 @@ static GLuint triangle[3] = { 0, 1, 2 };
 } // namespace indices
 
 void internal_draw_string(float x, float y, const std::string& string,
-    glez::font& font, glez::rgba color, float* width, float* height) {
+    const glez::font& font, glez::rgba color, float* width, float* height) {
     assert(font.isLoaded());
     auto* fnt = font.m_font;
     float pen_x = x;
@@ -202,14 +202,14 @@ void circle(float x, float y, float radius, rgba color, float thickness,
     }
 }
 
-void string(float x, float y, const std::string& string, font& font, rgba color, float* width, float* height) {
+void string(float x, float y, const std::string& string, const font& font, rgba color, float* width, float* height) {
     auto fnt = font.m_font;
     fnt->rendermode = RENDER_NORMAL;
     fnt->outline_thickness = 0.0f;
     internal_draw_string(x, y, string, font, color, width, height);
 }
 
-void outlined_string(float x, float y, const std::string& string, font& font, rgba color, rgba outline, float* width, float* height) {
+void outlined_string(float x, float y, const std::string& string, const font& font, rgba color, rgba outline, float* width, float* height) {
     auto fnt = font.m_font;
     fnt->rendermode = RENDER_OUTLINE_POSITIVE;
     fnt->outline_thickness = 1.0f;

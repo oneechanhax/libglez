@@ -22,8 +22,8 @@ void rect_textured(float x, float y, float w, float h, rgba color,
     float angle);
 void circle(float x, float y, float radius, rgba color, float thickness, int steps);
 
-void string(float x, float y, const std::string& string, font& font, rgba color,
+void string(float x, float y, const std::string& string, const font& font, rgba color,
     float* width, float* height);
-void outlined_string(float x, float y, const std::string& string, font& font,
+void outlined_string(float x, float y, const std::string& string, const font& font,
     rgba color, rgba outline, float* width, float* height);
 } // namespace glez::draw
